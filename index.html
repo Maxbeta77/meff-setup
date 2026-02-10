@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MEFF Remote Scanner - Setup Dispositivo</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 50%, #1a1a2e 100%);
+            min-height: 100vh;
+            color: white;
+            padding: 16px;
+        }
+        
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 24px 0;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            border-radius: 20px;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(90deg, #06b6d4, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            color: #9ca3af;
+            font-size: 14px;
+        }
+        
+        .device-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #374151;
+            padding: 6px 12px;
+            border-radius: 20px;
+            margin-top: 12px;
+            font-size: 13px;
+            color: #d1d5db;
+        }
+        
+        /* Progress Steps */
+        .progress {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .step-circle.active {
+            background: #06b6d4;
+            color: white;
+        }
+        
+        .step-circle.completed {
+            background: #10b981;
+            color: white;
+        }
+        
+        .step-circle.inactive {
+            background: #374151;
+            color: #9ca3af;
+        }
+        
+        .step-line {
+            width: 40px;
+            height: 4px;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        
+        .step-line.active {
+            background: #06b6d4;
+        }
+        
+        .step-line.inactive {
+            background: #374151;
+        }
+        
+        /* Card */
+        .card {
+            background: rgba(55, 65, 81, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid #4b5563;
+            border-radius: 20px;
+            padding: 24px;
+        }
+        
+        .step-content {
+            display: none;
+        }
+        
+        .step-content.active {
+            display: block;
+        }
+        
+        .step-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+        
+        .step-icon.blue { background: rgba(59, 130, 246, 0.2); }
+        .step-icon.purple { background: rgba(139, 92, 246, 0.2); }
+        .step-icon.green { background: rgba(16, 185, 129, 0.2); }
+        
+        .step-title {
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        
+        .step-description {
+            color: #9ca3af;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3);
+        }
+        
+        .btn-ios {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+        }
+        
+        .btn-android {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+        }
+        
+        .btn-purple {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+        }
+        
+        .btn-green {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #374151;
+            color: white;
+            margin-top: 12px;
+        }
+        
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+        
+        /* Auth Key Box */
+        .auth-key-box {
+            background: #1f2937;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid #374151;
+        }
+        
+        .auth-key-label {
+            color: #9ca3af;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .auth-key-value {
+            color: #06b6d4;
+            font-family: monospace;
+            font-size: 12px;
+            word-break: break-all;
+            line-height: 1.5;
+        }
+        
+        /* Instructions */
+        .instructions {
+            margin-top: 16px;
+        }
+        
+        .instruction-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: rgba(31, 41, 55, 0.5);
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+        
+        .instruction-number {
+            width: 24px;
+            height: 24px;
+            background: #06b6d4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .instruction-text {
+            color: #d1d5db;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        /* Success Box */
+        .success-box {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            margin-top: 16px;
+        }
+        
+        .success-box p {
+            color: #34d399;
+            font-size: 14px;
+        }
+        
+        /* Error Box */
+        .error-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        
+        .error-box p {
+            color: #f87171;
+            font-size: 14px;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 24px;
+            color: #6b7280;
+            font-size: 12px;
+        }
+        
+        /* Buttons Row */
+        .btn-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        
+        .btn-row .btn {
+            flex: 1;
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #10b981;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+        
+        /* Loading */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+        }
+        
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid #374151;
+            border-top-color: #06b6d4;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Hide on specific device */
+        .ios-only { display: none; }
+        .android-only { display: none; }
+        
+        .device-ios .ios-only { display: flex; }
+        .device-ios .android-only { display: none; }
+        .device-android .android-only { display: flex; }
+        .device-android .ios-only { display: none; }
+        .device-desktop .ios-only, .device-desktop .android-only { display: flex; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">🛡️</div>
+            <h1>MEFF Remote Scanner</h1>
+            <p>Connetti il tuo dispositivo in 3 semplici passi</p>
+            <div class="device-badge" id="deviceBadge">
+                📱 <span id="deviceName">Rilevamento dispositivo...</span>
+            </div>
+        </div>
+        
+        <!-- Progress -->
+        <div class="progress">
+            <div class="step-circle active" id="step1Circle">1</div>
+            <div class="step-line inactive" id="line1"></div>
+            <div class="step-circle inactive" id="step2Circle">2</div>
+            <div class="step-line inactive" id="line2"></div>
+            <div class="step-circle inactive" id="step3Circle">3</div>
+        </div>
+        
+        <!-- Card -->
+        <div class="card">
+            <!-- Error if no key -->
+            <div id="errorNoKey" style="display: none;">
+                <div class="error-box">
+                    <p>⚠️ Chiave di autenticazione mancante!</p>
+                    <p style="margin-top: 8px; font-size: 12px;">Chiedi al tecnico di generare un nuovo QR code.</p>
+                </div>
+            </div>
+            
+            <!-- Step 1: Install Tailscale -->
+            <div class="step-content active" id="step1Content">
+                <div class="step-icon blue">📥</div>
+                <h2 class="step-title">Passo 1: Installa Tailscale</h2>
+                <p class="step-description">
+                    Tailscale è una VPN sicura che permette di analizzare il traffico del tuo dispositivo
+                </p>
+                
+                <a href="https://apps.apple.com/app/tailscale/id1470499037" class="btn btn-ios ios-only" target="_blank">
+                    <span>🍎</span> Scarica da App Store
+                    <span>↗️</span>
+                </a>
+                
+                <a href="https://play.google.com/store/apps/details?id=com.tailscale.ipn" class="btn btn-android android-only" target="_blank">
+                    <span>▶️</span> Scarica da Play Store
+                    <span>↗️</span>
+                </a>
+                
+                <button class="btn btn-secondary" onclick="goToStep(2)">
+                    Ho già Tailscale installato →
+                </button>
+            </div>
+            
+            <!-- Step 2: Copy Auth Key -->
+            <div class="step-content" id="step2Content">
+                <div class="step-icon purple">📋</div>
+                <h2 class="step-title">Passo 2: Copia la Chiave</h2>
+                <p class="step-description">
+                    Tocca il pulsante per copiare la chiave di autenticazione
+                </p>
+                
+                <div class="auth-key-box">
+                    <div class="auth-key-label">Chiave di autenticazione:</div>
+                    <div class="auth-key-value" id="authKeyDisplay">Caricamento...</div>
+                </div>
+                
+                <button class="btn btn-purple" id="copyBtn" onclick="copyAuthKey()">
+                    <span>📋</span> Tocca per Copiare
+                </button>
+                
+                <div class="btn-row">
+                    <button class="btn btn-secondary" onclick="goToStep(1)">← Indietro</button>
+                    <button class="btn btn-primary" onclick="goToStep(3)">Avanti →</button>
+                </div>
+            </div>
+            
+            <!-- Step 3: Connect -->
+            <div class="step-content" id="step3Content">
+                <div class="step-icon green">📶</div>
+                <h2 class="step-title">Passo 3: Connetti a MEFF</h2>
+                <p class="step-description">
+                    Segui questi passaggi nell'app Tailscale
+                </p>
+                
+                <div class="instructions ios-only" id="iosInstructions">
+                    <div class="instruction-item">
+                        <div class="instruction-number">1</div>
+                        <div class="instruction-text">Apri l'app <strong>Tailscale</strong></div>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-number">2</div>
+                        <div class="instruction-text">Tocca <strong>"Log in"</strong> o <strong>"Add account"</strong></div>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-number">3</div>
+                        <div class="instruction-text">Seleziona <strong>"Use auth key"</strong></div>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-number">4</div>
+                        <div class="instruction-text"><strong>Incolla</strong> la chiave copiata e conferma</div>
+                    </div>
+                </div>
+                
+                <div class="instructions android-only" id="androidInstructions">
+                    <div class="instruction-item">
+                        <div class="instruction-number">1</div>
+                        <div class="instruction-text">Apri l'app <strong>Tailscale</strong></div>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-number">2</div>
+                        <div class="instruction-text">Tocca il menu <strong>⋮</strong> → <strong>"Use auth key"</strong></div>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-number">3</div>
+                        <div class="instruction-text"><strong>Incolla</strong> la chiave e tocca "Connect"</div>
+                    </div>
+                </div>
+                
+                <a href="#" class="btn btn-green" id="openTailscaleBtn" onclick="openTailscale()">
+                    <span>⚙️</span> Apri Tailscale
+                </a>
+                
+                <div class="success-box">
+                    <p>✅ Una volta connesso, torna dal tecnico e clicca <strong>"Avvia Scansione"</strong>!</p>
+                </div>
+                
+                <button class="btn btn-secondary" onclick="goToStep(2)">← Torna a copiare la chiave</button>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            🔒 Connessione sicura e crittografata via Tailscale VPN<br>
+            <strong>MEFF M3 Pro</strong> - Mobile Forensics Scanner
+        </div>
+    </div>
+    
+    <!-- Toast -->
+    <div class="toast" id="toast">✓ Copiato negli appunti!</div>
+    
+    <script>
+        let authKey = '';
+        let currentStep = 1;
+        let deviceType = 'desktop';
+        
+        // Detect device type
+        function detectDevice() {
+            const ua = navigator.userAgent.toLowerCase();
+            if (/iphone|ipad|ipod/.test(ua)) {
+                deviceType = 'ios';
+                document.body.classList.add('device-ios');
+                document.getElementById('deviceName').textContent = 'iPhone/iPad rilevato';
+            } else if (/android/.test(ua)) {
+                deviceType = 'android';
+                document.body.classList.add('device-android');
+                document.getElementById('deviceName').textContent = 'Android rilevato';
+            } else {
+                deviceType = 'desktop';
+                document.body.classList.add('device-desktop');
+                document.getElementById('deviceName').textContent = 'Apri questa pagina dal telefono';
+            }
+        }
+        
+        // Get auth key from URL parameter
+        function getAuthKeyFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            authKey = params.get('key') || '';
+            
+            if (authKey) {
+                document.getElementById('authKeyDisplay').textContent = authKey;
+            } else {
+                document.getElementById('errorNoKey').style.display = 'block';
+                document.getElementById('authKeyDisplay').textContent = 'Chiave non trovata';
+            }
+        }
+        
+        // Navigate to step
+        function goToStep(step) {
+            currentStep = step;
+            
+            // Update circles
+            for (let i = 1; i <= 3; i++) {
+                const circle = document.getElementById(`step${i}Circle`);
+                if (i < step) {
+                    circle.className = 'step-circle completed';
+                    circle.innerHTML = '✓';
+                } else if (i === step) {
+                    circle.className = 'step-circle active';
+                    circle.innerHTML = i;
+                } else {
+                    circle.className = 'step-circle inactive';
+                    circle.innerHTML = i;
+                }
+            }
+            
+            // Update lines
+            document.getElementById('line1').className = step > 1 ? 'step-line active' : 'step-line inactive';
+            document.getElementById('line2').className = step > 2 ? 'step-line active' : 'step-line inactive';
+            
+            // Show content
+            for (let i = 1; i <= 3; i++) {
+                const content = document.getElementById(`step${i}Content`);
+                content.className = i === step ? 'step-content active' : 'step-content';
+            }
+        }
+        
+        // Copy auth key
+        function copyAuthKey() {
+            if (!authKey) {
+                showToast('❌ Chiave non disponibile');
+                return;
+            }
+            
+            // Try modern clipboard API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(authKey).then(() => {
+                    showCopySuccess();
+                }).catch(() => {
+                    fallbackCopy();
+                });
+            } else {
+                fallbackCopy();
+            }
+        }
+        
+        // Fallback copy for older browsers
+        function fallbackCopy() {
+            const textArea = document.createElement('textarea');
+            textArea.value = authKey;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-9999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            textArea.setSelectionRange(0, 99999);
+            
+            try {
+                document.execCommand('copy');
+                showCopySuccess();
+            } catch (err) {
+                showToast('❌ Errore copia');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+        
+        // Show copy success
+        function showCopySuccess() {
+            const btn = document.getElementById('copyBtn');
+            btn.innerHTML = '<span>✓</span> Copiato!';
+            btn.classList.remove('btn-purple');
+            btn.classList.add('btn-success');
+            
+            showToast('✓ Copiato negli appunti!');
+            
+            // Auto advance to step 3 after 1.5s
+            setTimeout(() => {
+                goToStep(3);
+                // Reset button
+                setTimeout(() => {
+                    btn.innerHTML = '<span>📋</span> Tocca per Copiare';
+                    btn.classList.remove('btn-success');
+                    btn.classList.add('btn-purple');
+                }, 500);
+            }, 1500);
+        }
+        
+        // Show toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+        
+        // Open Tailscale app
+        function openTailscale() {
+            if (deviceType === 'ios') {
+                // iOS doesn't have a reliable deep link, open App Store as fallback
+                window.location.href = 'tailscale://';
+                setTimeout(() => {
+                    // If app didn't open, suggest opening manually
+                }, 2000);
+            } else if (deviceType === 'android') {
+                window.location.href = 'intent://tailscale/#Intent;scheme=tailscale;package=com.tailscale.ipn;end';
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            detectDevice();
+            getAuthKeyFromUrl();
+        });
+    </script>
+</body>
+</html>
