@@ -215,26 +215,45 @@
                 <button class="btn btn-secondary" onclick="goToStep(2)" id="step1NextBtn">Ho già Tailscale →</button>
             </div>
             
-            <!-- Step 2: Copy Key -->
+            <!-- Step 2: Click Invite Link -->
             <div class="step-content" id="step2Content">
-                <div class="step-icon orange">🔑</div>
-                <h2 class="step-title" id="step2Title">Passo 2: Copia la Chiave</h2>
-                <p class="step-description" id="step2Desc">Tocca il pulsante per copiare la chiave</p>
+                <div class="step-icon orange">🔗</div>
+                <h2 class="step-title" id="step2Title">Passo 2: Clicca il Link</h2>
+                <p class="step-description" id="step2Desc">Clicca il pulsante per accedere a Tailscale</p>
                 
                 <div class="warning-box" id="singleUseWarning" style="display:none;">
-                    <p id="singleUseWarningText">⚠️ <strong>CHIAVE MONOUSO</strong> - Valida per UN SOLO dispositivo!</p>
+                    <p id="singleUseWarningText">⚠️ <strong>LINK MONOUSO</strong> - Valido per UN SOLO dispositivo!</p>
                 </div>
                 
-                <div class="auth-key-box">
-                    <div class="auth-key-label" id="authKeyLabel">🔑 Chiave di autenticazione:</div>
-                    <div class="auth-key-value" id="authKeyDisplay">Caricamento...</div>
+                <div class="auth-key-box" id="inviteLinkBox">
+                    <div class="auth-key-label" id="authKeyLabel">🔗 Link di accesso rapido:</div>
+                    <div class="auth-key-value" id="authKeyDisplay" style="font-size: 11px;">Caricamento...</div>
                 </div>
                 
-                <button class="btn btn-orange" id="copyBtn" onclick="copyKey()">
-                    📋 <span id="copyBtnText">Tocca per Copiare</span>
+                <a href="#" class="btn btn-orange" id="inviteLinkBtn" target="_blank" style="text-decoration: none;">
+                    <span id="accessBtnText">🚀 Clicca per Accedere a Tailscale</span>
+                </a>
+                
+                <button class="btn btn-secondary" id="copyBtn" onclick="copyKey()" style="margin-top: 5px;">
+                    <span id="copyBtnText">📋 Copia link negli appunti</span>
                 </button>
                 
-                <div style="display: flex; gap: 10px;">
+                <div class="instructions" style="margin-top: 16px;">
+                    <div class="instruction-item">
+                        <div class="instruction-number">1</div>
+                        <div class="instruction-text" id="invite1">Clicca il pulsante <strong>arancione</strong> sopra</div>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-number">2</div>
+                        <div class="instruction-text" id="invite2">Fai <strong>login</strong> con Google, Microsoft o email</div>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-number">3</div>
+                        <div class="instruction-text" id="invite3">Tailscale si installerà e connetterà <strong>automaticamente</strong></div>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 10px; margin-top: 16px;">
                     <button class="btn btn-secondary" onclick="goToStep(1)" id="step2BackBtn">← Indietro</button>
                     <button class="btn btn-primary" onclick="goToStep(3)" id="step2NextBtn">Avanti →</button>
                 </div>
@@ -243,20 +262,13 @@
             <!-- Step 3: Connect -->
             <div class="step-content" id="step3Content">
                 <div class="step-icon green">📶</div>
-                <h2 class="step-title" id="step3Title">Passo 3: Connetti</h2>
-                <p class="step-description" id="step3Desc">Segui questi passaggi in Tailscale</p>
+                <h2 class="step-title" id="step3Title">Passo 3: Verifica Connessione</h2>
+                <p class="step-description" id="step3Desc">Assicurati di essere connesso a Tailscale</p>
                 
-                <div class="instructions" id="iosInstructions" style="display:none;">
-                    <div class="instruction-item"><div class="instruction-number">1</div><div class="instruction-text" id="ios1">Apri l'app <strong>Tailscale</strong></div></div>
-                    <div class="instruction-item"><div class="instruction-number">2</div><div class="instruction-text" id="ios2">Tocca <strong>"Log in"</strong> o <strong>"Add account"</strong></div></div>
-                    <div class="instruction-item"><div class="instruction-number">3</div><div class="instruction-text" id="ios3">Seleziona <strong>"Use auth key"</strong></div></div>
-                    <div class="instruction-item"><div class="instruction-number">4</div><div class="instruction-text" id="ios4"><strong>Incolla</strong> la chiave e conferma</div></div>
-                </div>
-                
-                <div class="instructions" id="androidInstructions" style="display:none;">
-                    <div class="instruction-item"><div class="instruction-number">1</div><div class="instruction-text" id="and1">Apri l'app <strong>Tailscale</strong></div></div>
-                    <div class="instruction-item"><div class="instruction-number">2</div><div class="instruction-text" id="and2">Tocca menu <strong>⋮</strong> → <strong>"Use auth key"</strong></div></div>
-                    <div class="instruction-item"><div class="instruction-number">3</div><div class="instruction-text" id="and3"><strong>Incolla</strong> la chiave e tocca "Connect"</div></div>
+                <div class="instructions" id="postLoginInstructions">
+                    <div class="instruction-item"><div class="instruction-number">1</div><div class="instruction-text" id="post1">Dopo il login, <strong>scarica l'app Tailscale</strong> se richiesto</div></div>
+                    <div class="instruction-item"><div class="instruction-number">2</div><div class="instruction-text" id="post2">Apri l'app <strong>Tailscale</strong> sul telefono</div></div>
+                    <div class="instruction-item"><div class="instruction-number">3</div><div class="instruction-text" id="post3">Verifica che sia <strong style="color: #4ade80;">Connected</strong></div></div>
                 </div>
                 
                 <div class="success-box">
@@ -264,7 +276,7 @@
                 </div>
                 
                 <button class="btn btn-red" onclick="goToStep(4)" id="step3NextBtn">⚠️ IMPORTANTE: Vai al Passo 4 →</button>
-                <button class="btn btn-secondary" onclick="goToStep(2)" id="step3BackBtn">← Torna alla chiave</button>
+                <button class="btn btn-secondary" onclick="goToStep(2)" id="step3BackBtn">← Torna indietro</button>
             </div>
             
             <!-- Step 4: EXIT NODE (CRITICAL!) -->
@@ -318,33 +330,34 @@
                 deviceIOS: "iPhone/iPad rilevato",
                 deviceAndroid: "Android rilevato",
                 deviceDesktop: "Apri dal telefono",
-                singleUseText: "CHIAVE MONOUSO",
-                errorText: "⚠️ Chiave di autenticazione mancante!",
+                singleUseText: "LINK MONOUSO",
+                errorText: "⚠️ Link di accesso mancante!",
                 errorSubtext: "Torna dal tecnico e fai generare un nuovo QR Code.",
                 step1Title: "Passo 1: Installa Tailscale",
                 step1Desc: "Tailscale è una VPN sicura per analizzare il traffico",
                 iosBtnText: "Scarica da App Store",
                 androidBtnText: "Scarica da Play Store",
                 step1NextBtn: "Ho già Tailscale →",
-                step2Title: "Passo 2: Copia la Chiave",
-                step2Desc: "Tocca il pulsante per copiare la chiave",
-                singleUseWarningText: "⚠️ <strong>CHIAVE MONOUSO</strong> - Valida per UN SOLO dispositivo!",
-                authKeyLabel: "🔑 Chiave di autenticazione:",
-                copyBtnText: "Tocca per Copiare",
+                step2Title: "Passo 2: Clicca il Link",
+                step2Desc: "Clicca il pulsante per accedere a Tailscale",
+                singleUseWarningText: "⚠️ <strong>LINK MONOUSO</strong> - Valido per UN SOLO dispositivo!",
+                authKeyLabel: "🔗 Link di accesso rapido:",
+                accessBtnText: "🚀 Clicca per Accedere a Tailscale",
+                copyBtnText: "📋 Copia link negli appunti",
                 copiedText: "✓ Copiato!",
                 step2BackBtn: "← Indietro",
-                step3Title: "Passo 3: Connetti",
-                step3Desc: "Segui questi passaggi in Tailscale",
-                ios1: "Apri l'app <strong>Tailscale</strong>",
-                ios2: "Tocca <strong>\"Log in\"</strong> o <strong>\"Add account\"</strong>",
-                ios3: "Seleziona <strong>\"Use auth key\"</strong>",
-                ios4: "<strong>Incolla</strong> la chiave e conferma",
-                and1: "Apri l'app <strong>Tailscale</strong>",
-                and2: "Tocca menu <strong>⋮</strong> → <strong>\"Use auth key\"</strong>",
-                and3: "<strong>Incolla</strong> la chiave e tocca \"Connect\"",
+                step2NextBtn: "Avanti →",
+                invite1: "Clicca il pulsante <strong>arancione</strong> sopra",
+                invite2: "Fai <strong>login</strong> con Google, Microsoft o email",
+                invite3: "Tailscale si installerà e connetterà <strong>automaticamente</strong>",
+                step3Title: "Passo 3: Verifica Connessione",
+                step3Desc: "Assicurati di essere connesso a Tailscale",
+                post1: "Dopo il login, <strong>scarica l'app Tailscale</strong> se richiesto",
+                post2: "Apri l'app <strong>Tailscale</strong> sul telefono",
+                post3: "Verifica che sia <strong style=\"color: #4ade80;\">Connected</strong>",
                 step3Success: "✅ Connesso! Ora vai al PASSO 4 →",
                 step3NextBtn: "⚠️ IMPORTANTE: Vai al Passo 4 →",
-                step3BackBtn: "← Torna alla chiave",
+                step3BackBtn: "← Torna indietro",
                 step4Title: "Passo 4: ATTIVA EXIT NODE",
                 step4Desc: "OBBLIGATORIO per la scansione!",
                 exitNodeWarning: "❌ SENZA QUESTO PASSAGGIO LA SCANSIONE NON FUNZIONA!",
@@ -362,35 +375,36 @@
                 deviceIOS: "iPhone/iPad detected",
                 deviceAndroid: "Android detected",
                 deviceDesktop: "Open from phone",
-                singleUseText: "SINGLE-USE KEY",
-                errorText: "⚠️ Authentication key missing!",
+                singleUseText: "SINGLE-USE LINK",
+                errorText: "⚠️ Access link missing!",
                 errorSubtext: "Go back to the technician and generate a new QR Code.",
                 step1Title: "Step 1: Install Tailscale",
                 step1Desc: "Tailscale is a secure VPN to analyze traffic",
                 iosBtnText: "Download from App Store",
                 androidBtnText: "Download from Play Store",
                 step1NextBtn: "I already have Tailscale →",
-                step2Title: "Step 2: Copy the Key",
-                step2Desc: "Tap the button to copy the key",
-                singleUseWarningText: "⚠️ <strong>SINGLE-USE KEY</strong> - Valid for ONE device only!",
-                authKeyLabel: "🔑 Authentication key:",
-                copyBtnText: "Tap to Copy",
+                step2Title: "Step 2: Click the Link",
+                step2Desc: "Click the button to access Tailscale",
+                singleUseWarningText: "⚠️ <strong>SINGLE-USE LINK</strong> - Valid for ONE device only!",
+                authKeyLabel: "🔗 Quick access link:",
+                accessBtnText: "🚀 Click to Access Tailscale",
+                copyBtnText: "📋 Copy link to clipboard",
                 copiedText: "✓ Copied!",
                 step2BackBtn: "← Back",
-                step3Title: "Step 3: Connect",
-                step3Desc: "Follow these steps in Tailscale",
-                ios1: "Open the <strong>Tailscale</strong> app",
-                ios2: "Tap <strong>\"Log in\"</strong> or <strong>\"Add account\"</strong>",
-                ios3: "Select <strong>\"Use auth key\"</strong>",
-                ios4: "<strong>Paste</strong> the key and confirm",
-                and1: "Open the <strong>Tailscale</strong> app",
-                and2: "Tap menu <strong>⋮</strong> → <strong>\"Use auth key\"</strong>",
-                and3: "<strong>Paste</strong> the key and tap \"Connect\"",
+                step2NextBtn: "Next →",
+                invite1: "Click the <strong>orange</strong> button above",
+                invite2: "<strong>Login</strong> with Google, Microsoft or email",
+                invite3: "Tailscale will install and connect <strong>automatically</strong>",
+                step3Title: "Step 3: Verify Connection",
+                step3Desc: "Make sure you're connected to Tailscale",
+                post1: "After login, <strong>download Tailscale app</strong> if prompted",
+                post2: "Open the <strong>Tailscale</strong> app on your phone",
+                post3: "Verify it shows <strong style=\"color: #4ade80;\">Connected</strong>",
                 step3Success: "✅ Connected! Now go to STEP 4 →",
                 step3NextBtn: "⚠️ IMPORTANT: Go to Step 4 →",
-                step3BackBtn: "← Back to key",
+                step3BackBtn: "← Go back",
                 step4Title: "Step 4: ENABLE EXIT NODE",
-                step4Desc: "MANDATORY for the scan!",
+                step4Desc: "REQUIRED for scanning!",
                 exitNodeWarning: "❌ WITHOUT THIS STEP THE SCAN WON'T WORK!",
                 exit1: "Open the <strong>Tailscale</strong> app on your phone",
                 exit2: "Tap the <strong>⋮</strong> menu (three dots) at the top",
@@ -403,7 +417,7 @@
         };
         
         var currentLang = 'it';
-        var AUTH_KEY = "";
+        var INVITE_LINK = "";
         var SESSION_ID = "";
         var currentStep = 1;
         var deviceType = "desktop";
@@ -432,17 +446,18 @@
             document.getElementById('step2Desc').textContent = t.step2Desc;
             document.getElementById('singleUseWarningText').innerHTML = t.singleUseWarningText;
             document.getElementById('authKeyLabel').textContent = t.authKeyLabel;
+            document.getElementById('accessBtnText').textContent = t.accessBtnText;
             document.getElementById('copyBtnText').textContent = t.copyBtnText;
             document.getElementById('step2BackBtn').textContent = t.step2BackBtn;
+            document.getElementById('step2NextBtn').textContent = t.step2NextBtn;
+            document.getElementById('invite1').innerHTML = t.invite1;
+            document.getElementById('invite2').innerHTML = t.invite2;
+            document.getElementById('invite3').innerHTML = t.invite3;
             document.getElementById('step3Title').textContent = t.step3Title;
             document.getElementById('step3Desc').textContent = t.step3Desc;
-            document.getElementById('ios1').innerHTML = t.ios1;
-            document.getElementById('ios2').innerHTML = t.ios2;
-            document.getElementById('ios3').innerHTML = t.ios3;
-            document.getElementById('ios4').innerHTML = t.ios4;
-            document.getElementById('and1').innerHTML = t.and1;
-            document.getElementById('and2').innerHTML = t.and2;
-            document.getElementById('and3').innerHTML = t.and3;
+            document.getElementById('post1').innerHTML = t.post1;
+            document.getElementById('post2').innerHTML = t.post2;
+            document.getElementById('post3').innerHTML = t.post3;
             document.getElementById('step3Success').textContent = t.step3Success;
             document.getElementById('step3NextBtn').textContent = t.step3NextBtn;
             document.getElementById('step3BackBtn').textContent = t.step3BackBtn;
@@ -462,18 +477,28 @@
         }
         
         function init() {
-            // Read URL params
+            // Read URL params - 'key' now contains the full invite link
             var urlParams = new URLSearchParams(window.location.search);
-            AUTH_KEY = urlParams.get('key') || "";
+            INVITE_LINK = urlParams.get('key') || "";
             SESSION_ID = urlParams.get('session') || "";
             
-            if (!AUTH_KEY) {
+            if (!INVITE_LINK) {
                 document.getElementById("errorContent").style.display = "block";
                 document.getElementById("step1Content").classList.remove("active");
                 return;
             }
             
-            document.getElementById("authKeyDisplay").textContent = AUTH_KEY;
+            // Display the invite link (truncated for readability)
+            var displayLink = INVITE_LINK;
+            if (displayLink.length > 60) {
+                displayLink = displayLink.substring(0, 60) + "...";
+            }
+            document.getElementById("authKeyDisplay").textContent = displayLink;
+            
+            // Set the invite link button href
+            document.getElementById("inviteLinkBtn").href = INVITE_LINK;
+            
+            // Show single-use warnings
             document.getElementById("singleUseBadge").style.display = "inline-flex";
             document.getElementById("singleUseWarning").style.display = "block";
             
@@ -489,22 +514,16 @@
                 document.getElementById("deviceName").textContent = t.deviceIOS;
                 document.getElementById("iosBtn").style.display = "flex";
                 document.getElementById("androidBtn").style.display = "none";
-                document.getElementById("iosInstructions").style.display = "block";
-                document.getElementById("androidInstructions").style.display = "none";
             } else if (/android/.test(ua)) {
                 deviceType = "android";
                 document.getElementById("deviceName").textContent = t.deviceAndroid;
                 document.getElementById("androidBtn").style.display = "flex";
                 document.getElementById("iosBtn").style.display = "none";
-                document.getElementById("androidInstructions").style.display = "block";
-                document.getElementById("iosInstructions").style.display = "none";
             } else {
                 deviceType = "desktop";
                 document.getElementById("deviceName").textContent = t.deviceDesktop;
                 document.getElementById("iosBtn").style.display = "flex";
                 document.getElementById("androidBtn").style.display = "flex";
-                document.getElementById("iosInstructions").style.display = "block";
-                document.getElementById("androidInstructions").style.display = "none";
             }
         }
         
@@ -532,10 +551,10 @@
         }
         
         function copyKey() {
-            if (!AUTH_KEY) return;
+            if (!INVITE_LINK) return;
             
             if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(AUTH_KEY).then(showCopySuccess).catch(fallbackCopy);
+                navigator.clipboard.writeText(INVITE_LINK).then(showCopySuccess).catch(fallbackCopy);
             } else {
                 fallbackCopy();
             }
@@ -543,7 +562,7 @@
         
         function fallbackCopy() {
             var textArea = document.createElement("textarea");
-            textArea.value = AUTH_KEY;
+            textArea.value = INVITE_LINK;
             textArea.style.position = "fixed";
             textArea.style.left = "-9999px";
             document.body.appendChild(textArea);
@@ -569,7 +588,6 @@
             setTimeout(function() { toast.className = "toast"; }, 2500);
             
             setTimeout(function() {
-                goToStep(3);
                 document.getElementById("copyBtnText").textContent = t.copyBtnText;
                 btn.style.background = "";
             }, 1500);
