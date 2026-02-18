@@ -218,25 +218,17 @@
             <!-- Step 2: Click Invite Link -->
             <div class="step-content" id="step2Content">
                 <div class="step-icon orange">🔗</div>
-                <h2 class="step-title" id="step2Title">Passo 2: Clicca il Link</h2>
-                <p class="step-description" id="step2Desc">Clicca il pulsante per accedere a Tailscale</p>
+                <h2 class="step-title" id="step2Title">Passo 2: Accedi a Tailscale</h2>
+                <p class="step-description" id="step2Desc">Clicca il pulsante per connetterti automaticamente</p>
                 
                 <div class="warning-box" id="singleUseWarning" style="display:none;">
                     <p id="singleUseWarningText">⚠️ <strong>LINK MONOUSO</strong> - Valido per UN SOLO dispositivo!</p>
                 </div>
                 
-                <div class="auth-key-box" id="inviteLinkBox">
-                    <div class="auth-key-label" id="authKeyLabel">🔗 Link di accesso rapido:</div>
-                    <div class="auth-key-value" id="authKeyDisplay" style="font-size: 11px;">Caricamento...</div>
-                </div>
-                
-                <a href="#" class="btn btn-orange" id="inviteLinkBtn" target="_blank" style="text-decoration: none;">
-                    <span id="accessBtnText">🚀 Clicca per Accedere a Tailscale</span>
+                <!-- PULSANTE PRINCIPALE - GRANDE E VISIBILE -->
+                <a href="#" class="btn btn-orange" id="inviteLinkBtn" target="_blank" style="text-decoration: none; padding: 20px 24px; font-size: 18px; margin-bottom: 16px;">
+                    <span id="accessBtnText">🚀 ACCEDI A TAILSCALE</span>
                 </a>
-                
-                <button class="btn btn-secondary" id="copyBtn" onclick="copyKey()" style="margin-top: 5px;">
-                    <span id="copyBtnText">📋 Copia link negli appunti</span>
-                </button>
                 
                 <div class="instructions" style="margin-top: 16px;">
                     <div class="instruction-item">
@@ -249,7 +241,7 @@
                     </div>
                     <div class="instruction-item">
                         <div class="instruction-number">3</div>
-                        <div class="instruction-text" id="invite3">Tailscale si installerà e connetterà <strong>automaticamente</strong></div>
+                        <div class="instruction-text" id="invite3">Tailscale si connetterà <strong>automaticamente</strong></div>
                     </div>
                 </div>
                 
@@ -319,8 +311,6 @@
         <div class="footer">🔒 <span id="footerText">Connessione sicura via Tailscale VPN</span><br><strong>MEFF M3 Pro</strong></div>
     </div>
     
-    <div class="toast" id="toast">✓ Copiato!</div>
-    
     <script>
         // Traduzioni
         var translations = {
@@ -338,18 +328,15 @@
                 iosBtnText: "Scarica da App Store",
                 androidBtnText: "Scarica da Play Store",
                 step1NextBtn: "Ho già Tailscale →",
-                step2Title: "Passo 2: Clicca il Link",
-                step2Desc: "Clicca il pulsante per accedere a Tailscale",
+                step2Title: "Passo 2: Accedi a Tailscale",
+                step2Desc: "Clicca il pulsante per connetterti automaticamente",
                 singleUseWarningText: "⚠️ <strong>LINK MONOUSO</strong> - Valido per UN SOLO dispositivo!",
-                authKeyLabel: "🔗 Link di accesso rapido:",
-                accessBtnText: "🚀 Clicca per Accedere a Tailscale",
-                copyBtnText: "📋 Copia link negli appunti",
-                copiedText: "✓ Copiato!",
+                accessBtnText: "🚀 ACCEDI A TAILSCALE",
                 step2BackBtn: "← Indietro",
                 step2NextBtn: "Avanti →",
                 invite1: "Clicca il pulsante <strong>arancione</strong> sopra",
                 invite2: "Fai <strong>login</strong> con Google, Microsoft o email",
-                invite3: "Tailscale si installerà e connetterà <strong>automaticamente</strong>",
+                invite3: "Tailscale si connetterà <strong>automaticamente</strong>",
                 step3Title: "Passo 3: Verifica Connessione",
                 step3Desc: "Assicurati di essere connesso a Tailscale",
                 post1: "Dopo il login, <strong>scarica l'app Tailscale</strong> se richiesto",
@@ -383,18 +370,15 @@
                 iosBtnText: "Download from App Store",
                 androidBtnText: "Download from Play Store",
                 step1NextBtn: "I already have Tailscale →",
-                step2Title: "Step 2: Click the Link",
-                step2Desc: "Click the button to access Tailscale",
+                step2Title: "Step 2: Access Tailscale",
+                step2Desc: "Click the button to connect automatically",
                 singleUseWarningText: "⚠️ <strong>SINGLE-USE LINK</strong> - Valid for ONE device only!",
-                authKeyLabel: "🔗 Quick access link:",
-                accessBtnText: "🚀 Click to Access Tailscale",
-                copyBtnText: "📋 Copy link to clipboard",
-                copiedText: "✓ Copied!",
+                accessBtnText: "🚀 ACCESS TAILSCALE",
                 step2BackBtn: "← Back",
                 step2NextBtn: "Next →",
                 invite1: "Click the <strong>orange</strong> button above",
                 invite2: "<strong>Login</strong> with Google, Microsoft or email",
-                invite3: "Tailscale will install and connect <strong>automatically</strong>",
+                invite3: "Tailscale will connect <strong>automatically</strong>",
                 step3Title: "Step 3: Verify Connection",
                 step3Desc: "Make sure you're connected to Tailscale",
                 post1: "After login, <strong>download Tailscale app</strong> if prompted",
@@ -445,9 +429,7 @@
             document.getElementById('step2Title').textContent = t.step2Title;
             document.getElementById('step2Desc').textContent = t.step2Desc;
             document.getElementById('singleUseWarningText').innerHTML = t.singleUseWarningText;
-            document.getElementById('authKeyLabel').textContent = t.authKeyLabel;
             document.getElementById('accessBtnText').textContent = t.accessBtnText;
-            document.getElementById('copyBtnText').textContent = t.copyBtnText;
             document.getElementById('step2BackBtn').textContent = t.step2BackBtn;
             document.getElementById('step2NextBtn').textContent = t.step2NextBtn;
             document.getElementById('invite1').innerHTML = t.invite1;
@@ -488,14 +470,7 @@
                 return;
             }
             
-            // Display the invite link (truncated for readability)
-            var displayLink = INVITE_LINK;
-            if (displayLink.length > 60) {
-                displayLink = displayLink.substring(0, 60) + "...";
-            }
-            document.getElementById("authKeyDisplay").textContent = displayLink;
-            
-            // Set the invite link button href
+            // Set the invite link button href directly - NO display of the link
             document.getElementById("inviteLinkBtn").href = INVITE_LINK;
             
             // Show single-use warnings
@@ -548,49 +523,6 @@
             document.getElementById("line2").className = step > 2 ? "step-line active" : "step-line inactive";
             document.getElementById("line3").className = step > 3 ? "step-line active" : "step-line inactive";
             document.getElementById("errorContent").style.display = "none";
-        }
-        
-        function copyKey() {
-            if (!INVITE_LINK) return;
-            
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(INVITE_LINK).then(showCopySuccess).catch(fallbackCopy);
-            } else {
-                fallbackCopy();
-            }
-        }
-        
-        function fallbackCopy() {
-            var textArea = document.createElement("textarea");
-            textArea.value = INVITE_LINK;
-            textArea.style.position = "fixed";
-            textArea.style.left = "-9999px";
-            document.body.appendChild(textArea);
-            textArea.select();
-            try {
-                document.execCommand("copy");
-                showCopySuccess();
-            } catch (err) {
-                alert(currentLang === 'it' ? "Impossibile copiare. Seleziona manualmente." : "Cannot copy. Select manually.");
-            }
-            document.body.removeChild(textArea);
-        }
-        
-        function showCopySuccess() {
-            var t = translations[currentLang];
-            var btn = document.getElementById("copyBtn");
-            document.getElementById("copyBtnText").textContent = t.copiedText;
-            btn.style.background = "linear-gradient(135deg, #10b981, #059669)";
-            
-            var toast = document.getElementById("toast");
-            toast.textContent = t.copiedText;
-            toast.className = "toast show";
-            setTimeout(function() { toast.className = "toast"; }, 2500);
-            
-            setTimeout(function() {
-                document.getElementById("copyBtnText").textContent = t.copyBtnText;
-                btn.style.background = "";
-            }, 1500);
         }
         
         init();
