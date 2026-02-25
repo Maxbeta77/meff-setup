@@ -2,530 +2,68 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MEFF Remote Scanner - Setup</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEFF M3 Pro - Setup</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 50%, #1a1a2e 100%);
-            min-height: 100vh;
-            color: white;
-            padding: 16px;
-        }
-        .container { max-width: 480px; margin: 0 auto; }
-        .header { text-align: center; padding: 24px 0; }
-        .logo {
-            width: 80px; height: 80px;
-            background: linear-gradient(135deg, #06b6d4, #8b5cf6);
-            border-radius: 20px;
-            margin: 0 auto 16px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 40px;
-        }
-        .header h1 {
-            font-size: 24px; font-weight: 700; margin-bottom: 8px;
-            background: linear-gradient(90deg, #06b6d4, #8b5cf6);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .header p { color: #9ca3af; font-size: 14px; }
-        .device-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: #374151; padding: 6px 12px; border-radius: 20px;
-            margin-top: 12px; font-size: 13px; color: #d1d5db;
-        }
-        .single-use-badge {
-            display: inline-flex; align-items: center; gap: 6px;
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            padding: 6px 14px; border-radius: 20px;
-            margin-top: 8px; font-size: 12px; color: white; font-weight: 600;
-        }
-        .lang-switcher {
-            position: absolute; top: 16px; right: 16px;
-            display: flex; gap: 8px;
-        }
-        .lang-btn {
-            padding: 8px 12px; border-radius: 8px; border: none;
-            cursor: pointer; font-weight: 600; font-size: 14px;
-            transition: all 0.2s;
-        }
-        .lang-btn.active { background: #06b6d4; color: white; }
-        .lang-btn:not(.active) { background: #374151; color: #9ca3af; }
-        .lang-btn:hover { transform: scale(1.05); }
-        .progress {
-            display: flex; align-items: center; justify-content: center;
-            gap: 6px; margin-bottom: 24px;
-        }
-        .step-circle {
-            width: 36px; height: 36px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: 14px; transition: all 0.3s;
-        }
-        .step-circle.active { background: #06b6d4; color: white; }
-        .step-circle.completed { background: #10b981; color: white; }
-        .step-circle.inactive { background: #374151; color: #9ca3af; }
-        .step-line { width: 30px; height: 4px; border-radius: 2px; transition: all 0.3s; }
-        .step-line.active { background: #06b6d4; }
-        .step-line.inactive { background: #374151; }
-        .card {
-            background: rgba(55, 65, 81, 0.5); backdrop-filter: blur(10px);
-            border: 1px solid #4b5563; border-radius: 20px; padding: 24px;
-        }
-        .step-content { display: none; }
-        .step-content.active { display: block; }
-        .step-icon {
-            width: 64px; height: 64px; border-radius: 16px;
-            margin: 0 auto 16px; display: flex;
-            align-items: center; justify-content: center; font-size: 32px;
-        }
-        .step-icon.blue { background: rgba(59, 130, 246, 0.2); }
-        .step-icon.orange { background: rgba(245, 158, 11, 0.2); }
-        .step-icon.green { background: rgba(16, 185, 129, 0.2); }
-        .step-icon.red { background: rgba(239, 68, 68, 0.3); }
-        .step-title { font-size: 20px; font-weight: 600; text-align: center; margin-bottom: 8px; }
-        .step-description { color: #9ca3af; font-size: 14px; text-align: center; margin-bottom: 24px; }
-        .btn {
-            width: 100%; padding: 16px 24px; border-radius: 12px;
-            font-size: 16px; font-weight: 600; border: none; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            gap: 12px; transition: all 0.2s; text-decoration: none; margin-bottom: 10px;
-        }
-        .btn-primary { background: linear-gradient(135deg, #06b6d4, #3b82f6); color: white; }
-        .btn-ios { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
-        .btn-android { background: linear-gradient(135deg, #22c55e, #16a34a); color: white; }
-        .btn-orange { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
-        .btn-red { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
-        .btn-secondary { background: #374151; color: white; }
-        .btn:hover { transform: translateY(-2px); opacity: 0.95; }
-        .auth-key-box {
-            background: #1f2937; border-radius: 12px; padding: 16px;
-            margin-bottom: 16px; border: 2px solid #f59e0b;
-        }
-        .auth-key-label { color: #f59e0b; font-size: 12px; margin-bottom: 8px; font-weight: 600; }
-        .auth-key-value {
-            color: #06b6d4; font-family: monospace; font-size: 10px;
-            word-break: break-all; line-height: 1.5;
-            background: #000; padding: 10px; border-radius: 8px;
-        }
-        .warning-box {
-            background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.5);
-            border-radius: 12px; padding: 12px; margin-bottom: 16px;
-        }
-        .warning-box p { color: #fbbf24; font-size: 13px; text-align: center; }
-        .exit-node-warning {
-            background: linear-gradient(135deg, #7f1d1d, #991b1b);
-            border: 3px solid #ef4444;
-            border-radius: 16px; padding: 16px; margin-bottom: 16px;
-            animation: blink 1s infinite;
-        }
-        .exit-node-warning p { color: #fecaca; font-weight: bold; text-align: center; font-size: 14px; }
-        @keyframes blink {
-            0%, 50% { opacity: 1; border-color: #ef4444; }
-            51%, 100% { opacity: 0.85; border-color: #fbbf24; }
-        }
-        .instructions { margin-top: 16px; }
-        .instruction-item {
-            display: flex; align-items: flex-start; gap: 12px;
-            background: rgba(31, 41, 55, 0.5); padding: 12px;
-            border-radius: 10px; margin-bottom: 8px;
-        }
-        .instruction-item.red {
-            background: rgba(239, 68, 68, 0.2);
-            border: 1px solid rgba(239, 68, 68, 0.5);
-        }
-        .instruction-number {
-            width: 24px; height: 24px; background: #06b6d4; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 12px; font-weight: 700; flex-shrink: 0;
-        }
-        .instruction-number.red { background: #ef4444; }
-        .instruction-text { color: #d1d5db; font-size: 14px; line-height: 1.4; }
-        .success-box {
-            background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 12px; padding: 16px; text-align: center; margin: 16px 0;
-        }
-        .success-box p { color: #34d399; font-size: 14px; }
-        .error-box {
-            background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.5);
-            border-radius: 12px; padding: 16px; margin-bottom: 16px; text-align: center;
-        }
-        .error-box p { color: #f87171; font-size: 14px; }
-        .footer { text-align: center; padding: 24px; color: #6b7280; font-size: 12px; }
-        .toast {
-            position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
-            background: #10b981; color: white; padding: 12px 24px;
-            border-radius: 8px; font-weight: 600; opacity: 0;
-            transition: opacity 0.3s; z-index: 1000;
-        }
-        .toast.show { opacity: 1; }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#0a0a0a,#1a1a2e,#0f0f23);min-height:100vh;color:#fff;padding:20px}
+        .container{max-width:600px;margin:0 auto}
+        .logo{text-align:center;margin-bottom:30px}
+        .logo h1{font-size:2rem;background:linear-gradient(90deg,#00d4ff,#7b2cbf);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .logo p{color:#888;margin-top:5px}
+        .card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:24px;margin-bottom:20px}
+        .card h2{color:#00d4ff;margin-bottom:15px}
+        .step{display:flex;align-items:flex-start;margin-bottom:20px;padding:15px;background:rgba(0,212,255,0.05);border-radius:12px;border-left:3px solid #00d4ff}
+        .step-number{background:#00d4ff;color:#000;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;margin-right:15px;flex-shrink:0}
+        .step-content h3{margin-bottom:8px}
+        .step-content p{color:#aaa;font-size:0.9rem;line-height:1.5}
+        .download-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(90deg,#00d4ff,#7b2cbf);color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin-top:10px}
+        .command-box{background:#000;border:1px solid #333;border-radius:8px;padding:15px;margin:15px 0;position:relative}
+        .command-box code{color:#00ff88;font-family:monospace;font-size:0.8rem;word-break:break-all;display:block;padding-right:60px}
+        .copy-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:#00d4ff;color:#000;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:600}
+        .copy-btn.copied{background:#00ff88}
+        .timer{display:inline-flex;align-items:center;gap:8px;background:rgba(255,193,7,0.2);padding:8px 16px;border-radius:20px;color:#ffc107;margin-bottom:15px}
+        .warning{background:rgba(255,193,7,0.1);border:1px solid rgba(255,193,7,0.3);border-radius:8px;padding:15px;margin-top:15px}
+        .warning p{color:#ffc107;font-size:0.9rem}
+        .no-key{text-align:center;padding:40px}
+        .no-key h2{color:#ff6b6b;margin-bottom:15px}
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Language Switcher -->
-        <div class="lang-switcher">
-            <button class="lang-btn active" id="langIT" onclick="setLang('it')">🇮🇹 IT</button>
-            <button class="lang-btn" id="langEN" onclick="setLang('en')">🇬🇧 EN</button>
+        <div class="logo">
+            <h1>🛡️ MEFF M3 Pro</h1>
+            <p>Setup Connessione Sicura</p>
         </div>
-        
-        <div class="header">
-            <div class="logo">🛡️</div>
-            <h1>MEFF Remote Scanner</h1>
-            <p id="headerDesc">Connetti il tuo dispositivo in 4 semplici passi</p>
-            <div class="device-badge" id="deviceBadge">
-                📱 <span id="deviceName">Rilevamento...</span>
-            </div>
-            <div class="single-use-badge" id="singleUseBadge" style="display:none;">
-                🔑 <span id="singleUseText">CHIAVE MONOUSO</span>
-            </div>
-        </div>
-        
-        <div class="progress">
-            <div class="step-circle active" id="step1Circle">1</div>
-            <div class="step-line inactive" id="line1"></div>
-            <div class="step-circle inactive" id="step2Circle">2</div>
-            <div class="step-line inactive" id="line2"></div>
-            <div class="step-circle inactive" id="step3Circle">3</div>
-            <div class="step-line inactive" id="line3"></div>
-            <div class="step-circle inactive" id="step4Circle">4</div>
-        </div>
-        
-        <div class="card">
-            <!-- Error State -->
-            <div class="step-content" id="errorContent">
-                <div class="error-box">
-                    <p id="errorText">⚠️ Chiave di autenticazione mancante!</p>
-                    <p style="margin-top: 8px; font-size: 12px;" id="errorSubtext">Torna dal tecnico e fai generare un nuovo QR Code.</p>
-                </div>
-            </div>
-            
-            <!-- Step 1: Install -->
-            <div class="step-content active" id="step1Content">
-                <div class="step-icon blue">📥</div>
-                <h2 class="step-title" id="step1Title">Passo 1: Installa Tailscale</h2>
-                <p class="step-description" id="step1Desc">Tailscale è una VPN sicura per analizzare il traffico</p>
-                
-                <a href="https://apps.apple.com/app/tailscale/id1470499037" class="btn btn-ios" id="iosBtn" style="display:none;" target="_blank">
-                    🍎 <span id="iosBtnText">Scarica da App Store</span> ↗️
-                </a>
-                <a href="https://play.google.com/store/apps/details?id=com.tailscale.ipn" class="btn btn-android" id="androidBtn" style="display:none;" target="_blank">
-                    ▶️ <span id="androidBtnText">Scarica da Play Store</span> ↗️
-                </a>
-                <button class="btn btn-secondary" onclick="goToStep(2)" id="step1NextBtn">Ho già Tailscale →</button>
-            </div>
-            
-            <!-- Step 2: Click Invite Link -->
-            <div class="step-content" id="step2Content">
-                <div class="step-icon orange">🔗</div>
-                <h2 class="step-title" id="step2Title">Passo 2: Accedi a Tailscale</h2>
-                <p class="step-description" id="step2Desc">Clicca il pulsante per connetterti automaticamente</p>
-                
-                <div class="warning-box" id="singleUseWarning" style="display:none;">
-                    <p id="singleUseWarningText">⚠️ <strong>LINK MONOUSO</strong> - Valido per UN SOLO dispositivo!</p>
-                </div>
-                
-                <!-- PULSANTE PRINCIPALE - GRANDE E VISIBILE -->
-                <a href="#" class="btn btn-orange" id="inviteLinkBtn" target="_blank" style="text-decoration: none; padding: 20px 24px; font-size: 18px; margin-bottom: 16px;">
-                    <span id="accessBtnText">🚀 ACCEDI A TAILSCALE</span>
-                </a>
-                
-                <div class="instructions" style="margin-top: 16px;">
-                    <div class="instruction-item">
-                        <div class="instruction-number">1</div>
-                        <div class="instruction-text" id="invite1">Clicca il pulsante <strong>arancione</strong> sopra</div>
-                    </div>
-                    <div class="instruction-item">
-                        <div class="instruction-number">2</div>
-                        <div class="instruction-text" id="invite2">Fai <strong>login</strong> con Google, Microsoft o email</div>
-                    </div>
-                    <div class="instruction-item">
-                        <div class="instruction-number">3</div>
-                        <div class="instruction-text" id="invite3">Tailscale si connetterà <strong>automaticamente</strong></div>
-                    </div>
-                </div>
-                
-                <div style="display: flex; gap: 10px; margin-top: 16px;">
-                    <button class="btn btn-secondary" onclick="goToStep(1)" id="step2BackBtn">← Indietro</button>
-                    <button class="btn btn-primary" onclick="goToStep(3)" id="step2NextBtn">Avanti →</button>
-                </div>
-            </div>
-            
-            <!-- Step 3: Connect -->
-            <div class="step-content" id="step3Content">
-                <div class="step-icon green">📶</div>
-                <h2 class="step-title" id="step3Title">Passo 3: Verifica Connessione</h2>
-                <p class="step-description" id="step3Desc">Assicurati di essere connesso a Tailscale</p>
-                
-                <div class="instructions" id="postLoginInstructions">
-                    <div class="instruction-item"><div class="instruction-number">1</div><div class="instruction-text" id="post1">Dopo il login, <strong>scarica l'app Tailscale</strong> se richiesto</div></div>
-                    <div class="instruction-item"><div class="instruction-number">2</div><div class="instruction-text" id="post2">Apri l'app <strong>Tailscale</strong> sul telefono</div></div>
-                    <div class="instruction-item"><div class="instruction-number">3</div><div class="instruction-text" id="post3">Verifica che sia <strong style="color: #4ade80;">Connected</strong></div></div>
-                </div>
-                
-                <div class="success-box">
-                    <p id="step3Success">✅ Connesso! Ora vai al PASSO 4 →</p>
-                </div>
-                
-                <button class="btn btn-red" onclick="goToStep(4)" id="step3NextBtn">⚠️ IMPORTANTE: Vai al Passo 4 →</button>
-                <button class="btn btn-secondary" onclick="goToStep(2)" id="step3BackBtn">← Torna indietro</button>
-            </div>
-            
-            <!-- Step 4: EXIT NODE (CRITICAL!) -->
-            <div class="step-content" id="step4Content">
-                <div class="step-icon red">⚠️</div>
-                <h2 class="step-title" style="color: #ef4444;" id="step4Title">Passo 4: ATTIVA EXIT NODE</h2>
-                <p class="step-description" style="color: #fca5a5;" id="step4Desc">OBBLIGATORIO per la scansione!</p>
-                
-                <div class="exit-node-warning">
-                    <p id="exitNodeWarning">❌ SENZA QUESTO PASSAGGIO LA SCANSIONE NON FUNZIONA!</p>
-                </div>
-                
-                <div class="instructions">
-                    <div class="instruction-item red">
-                        <div class="instruction-number red">1</div>
-                        <div class="instruction-text" id="exit1">Apri l'app <strong>Tailscale</strong> sul telefono</div>
-                    </div>
-                    <div class="instruction-item red">
-                        <div class="instruction-number red">2</div>
-                        <div class="instruction-text" id="exit2">Tocca il menu <strong>⋮</strong> (tre puntini) in alto</div>
-                    </div>
-                    <div class="instruction-item red">
-                        <div class="instruction-number red">3</div>
-                        <div class="instruction-text" id="exit3">Seleziona <strong style="color: #fbbf24;">"Use exit node"</strong></div>
-                    </div>
-                    <div class="instruction-item red">
-                        <div class="instruction-number red">4</div>
-                        <div class="instruction-text" id="exit4">Scegli il server <strong style="color: #4ade80;">MEFF</strong> dalla lista</div>
-                    </div>
-                </div>
-                
-                <div class="success-box">
-                    <p id="step4Success">✅ Fatto! Ora torna dal tecnico per avviare la scansione!</p>
-                </div>
-                
-                <button class="btn btn-secondary" onclick="goToStep(3)" id="step4BackBtn">← Indietro</button>
-            </div>
-        </div>
-        
-        <div class="footer">🔒 <span id="footerText">Connessione sicura via Tailscale VPN</span><br><strong>MEFF M3 Pro</strong></div>
+        <div id="content"></div>
     </div>
-    
     <script>
-        // Traduzioni
-        var translations = {
-            it: {
-                headerDesc: "Connetti il tuo dispositivo in 4 semplici passi",
-                deviceDetecting: "Rilevamento...",
-                deviceIOS: "iPhone/iPad rilevato",
-                deviceAndroid: "Android rilevato",
-                deviceDesktop: "Apri dal telefono",
-                singleUseText: "LINK MONOUSO",
-                errorText: "⚠️ Link di accesso mancante!",
-                errorSubtext: "Torna dal tecnico e fai generare un nuovo QR Code.",
-                step1Title: "Passo 1: Installa Tailscale",
-                step1Desc: "Tailscale è una VPN sicura per analizzare il traffico",
-                iosBtnText: "Scarica da App Store",
-                androidBtnText: "Scarica da Play Store",
-                step1NextBtn: "Ho già Tailscale →",
-                step2Title: "Passo 2: Accedi a Tailscale",
-                step2Desc: "Clicca il pulsante per connetterti automaticamente",
-                singleUseWarningText: "⚠️ <strong>LINK MONOUSO</strong> - Valido per UN SOLO dispositivo!",
-                accessBtnText: "🚀 ACCEDI A TAILSCALE",
-                step2BackBtn: "← Indietro",
-                step2NextBtn: "Avanti →",
-                invite1: "Clicca il pulsante <strong>arancione</strong> sopra",
-                invite2: "Fai <strong>login</strong> con Google, Microsoft o email",
-                invite3: "Tailscale si connetterà <strong>automaticamente</strong>",
-                step3Title: "Passo 3: Verifica Connessione",
-                step3Desc: "Assicurati di essere connesso a Tailscale",
-                post1: "Dopo il login, <strong>scarica l'app Tailscale</strong> se richiesto",
-                post2: "Apri l'app <strong>Tailscale</strong> sul telefono",
-                post3: "Verifica che sia <strong style=\"color: #4ade80;\">Connected</strong>",
-                step3Success: "✅ Connesso! Ora vai al PASSO 4 →",
-                step3NextBtn: "⚠️ IMPORTANTE: Vai al Passo 4 →",
-                step3BackBtn: "← Torna indietro",
-                step4Title: "Passo 4: ATTIVA EXIT NODE",
-                step4Desc: "OBBLIGATORIO per la scansione!",
-                exitNodeWarning: "❌ SENZA QUESTO PASSAGGIO LA SCANSIONE NON FUNZIONA!",
-                exit1: "Apri l'app <strong>Tailscale</strong> sul telefono",
-                exit2: "Tocca il menu <strong>⋮</strong> (tre puntini) in alto",
-                exit3: "Seleziona <strong style=\"color: #fbbf24;\">\"Use exit node\"</strong>",
-                exit4: "Scegli il server <strong style=\"color: #4ade80;\">MEFF</strong> dalla lista",
-                step4Success: "✅ Fatto! Ora torna dal tecnico per avviare la scansione!",
-                step4BackBtn: "← Indietro",
-                footerText: "Connessione sicura via Tailscale VPN"
-            },
-            en: {
-                headerDesc: "Connect your device in 4 simple steps",
-                deviceDetecting: "Detecting...",
-                deviceIOS: "iPhone/iPad detected",
-                deviceAndroid: "Android detected",
-                deviceDesktop: "Open from phone",
-                singleUseText: "SINGLE-USE LINK",
-                errorText: "⚠️ Access link missing!",
-                errorSubtext: "Go back to the technician and generate a new QR Code.",
-                step1Title: "Step 1: Install Tailscale",
-                step1Desc: "Tailscale is a secure VPN to analyze traffic",
-                iosBtnText: "Download from App Store",
-                androidBtnText: "Download from Play Store",
-                step1NextBtn: "I already have Tailscale →",
-                step2Title: "Step 2: Access Tailscale",
-                step2Desc: "Click the button to connect automatically",
-                singleUseWarningText: "⚠️ <strong>SINGLE-USE LINK</strong> - Valid for ONE device only!",
-                accessBtnText: "🚀 ACCESS TAILSCALE",
-                step2BackBtn: "← Back",
-                step2NextBtn: "Next →",
-                invite1: "Click the <strong>orange</strong> button above",
-                invite2: "<strong>Login</strong> with Google, Microsoft or email",
-                invite3: "Tailscale will connect <strong>automatically</strong>",
-                step3Title: "Step 3: Verify Connection",
-                step3Desc: "Make sure you're connected to Tailscale",
-                post1: "After login, <strong>download Tailscale app</strong> if prompted",
-                post2: "Open the <strong>Tailscale</strong> app on your phone",
-                post3: "Verify it shows <strong style=\"color: #4ade80;\">Connected</strong>",
-                step3Success: "✅ Connected! Now go to STEP 4 →",
-                step3NextBtn: "⚠️ IMPORTANT: Go to Step 4 →",
-                step3BackBtn: "← Go back",
-                step4Title: "Step 4: ENABLE EXIT NODE",
-                step4Desc: "REQUIRED for scanning!",
-                exitNodeWarning: "❌ WITHOUT THIS STEP THE SCAN WON'T WORK!",
-                exit1: "Open the <strong>Tailscale</strong> app on your phone",
-                exit2: "Tap the <strong>⋮</strong> menu (three dots) at the top",
-                exit3: "Select <strong style=\"color: #fbbf24;\">\"Use exit node\"</strong>",
-                exit4: "Choose the <strong style=\"color: #4ade80;\">MEFF</strong> server from the list",
-                step4Success: "✅ Done! Now go back to the technician to start the scan!",
-                step4BackBtn: "← Back",
-                footerText: "Secure connection via Tailscale VPN"
-            }
-        };
+        const urlParams = new URLSearchParams(window.location.search);
+        const authKey = urlParams.get('authkey') || urlParams.get('key') || '';
+        const contentDiv = document.getElementById('content');
+        let timeRemaining = 3600;
         
-        var currentLang = 'it';
-        var INVITE_LINK = "";
-        var SESSION_ID = "";
-        var currentStep = 1;
-        var deviceType = "desktop";
+        function formatTime(s){const m=Math.floor(s/60);return m+':'+(s%60).toString().padStart(2,'0')}
+        function copyCmd(btn,txt){navigator.clipboard.writeText(txt).then(()=>{btn.textContent='✓ Copiato!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copia';btn.classList.remove('copied')},2000)})}
         
-        function setLang(lang) {
-            currentLang = lang;
-            document.getElementById('langIT').className = lang === 'it' ? 'lang-btn active' : 'lang-btn';
-            document.getElementById('langEN').className = lang === 'en' ? 'lang-btn active' : 'lang-btn';
-            updateTexts();
+        if(authKey && authKey.startsWith('tskey-')){
+            const cmd=`tailscale up --authkey=${authKey}`;
+            contentDiv.innerHTML=`
+                <div class="timer" id="timer">⏱️ Chiave valida per: <strong>${formatTime(timeRemaining)}</strong></div>
+                <div class="card">
+                    <h2>📋 Istruzioni Connessione</h2>
+                    <div class="step"><div class="step-number">1</div><div class="step-content"><h3>Scarica Tailscale</h3><p>Installa l'app VPN sicura.</p><a href="https://pkgs.tailscale.com/stable/tailscale-setup-latest.exe" class="download-btn" target="_blank">⬇️ Windows</a> <a href="https://apps.apple.com/app/tailscale/id1475387142" class="download-btn" target="_blank">🍎 Mac</a></div></div>
+                    <div class="step"><div class="step-number">2</div><div class="step-content"><h3>Apri Terminale/PowerShell (Admin)</h3><p>Windows: Win+X → PowerShell (Admin)<br>Mac: Cerca "Terminale"</p></div></div>
+                    <div class="step"><div class="step-number">3</div><div class="step-content"><h3>Esegui questo comando</h3><div class="command-box"><code>${cmd}</code><button class="copy-btn" onclick="copyCmd(this,'${cmd}')">Copia</button></div></div></div>
+                    <div class="warning"><p>⚠️ Chiave valida 1 ora e monouso. Se scade, richiedi nuovo link.</p></div>
+                </div>
+                <div class="card" style="background:rgba(0,255,136,0.1);border-color:rgba(0,255,136,0.3)"><h2 style="color:#00ff88">✅ Dopo la connessione</h2><p style="color:#aaa">Il tecnico potrà analizzare il traffico in modo sicuro e crittografato.</p></div>`;
+            setInterval(()=>{timeRemaining--;const t=document.getElementById('timer');if(t){t.innerHTML=timeRemaining>0?`⏱️ Chiave valida per: <strong>${formatTime(timeRemaining)}</strong>`:'❌ <strong>Chiave scaduta!</strong>';if(timeRemaining<=0){t.style.background='rgba(255,107,107,0.2)';t.style.color='#ff6b6b'}}},1000);
+        }else if(authKey){
+            window.location.href=authKey;
+        }else{
+            contentDiv.innerHTML='<div class="card no-key"><h2>⚠️ Link non valido</h2><p style="color:#888">Contatta il tecnico per un nuovo link.</p></div>';
         }
-        
-        function updateTexts() {
-            var t = translations[currentLang];
-            
-            // Update all text elements
-            document.getElementById('headerDesc').textContent = t.headerDesc;
-            document.getElementById('singleUseText').textContent = t.singleUseText;
-            document.getElementById('errorText').textContent = t.errorText;
-            document.getElementById('errorSubtext').textContent = t.errorSubtext;
-            document.getElementById('step1Title').textContent = t.step1Title;
-            document.getElementById('step1Desc').textContent = t.step1Desc;
-            document.getElementById('iosBtnText').textContent = t.iosBtnText;
-            document.getElementById('androidBtnText').textContent = t.androidBtnText;
-            document.getElementById('step1NextBtn').textContent = t.step1NextBtn;
-            document.getElementById('step2Title').textContent = t.step2Title;
-            document.getElementById('step2Desc').textContent = t.step2Desc;
-            document.getElementById('singleUseWarningText').innerHTML = t.singleUseWarningText;
-            document.getElementById('accessBtnText').textContent = t.accessBtnText;
-            document.getElementById('step2BackBtn').textContent = t.step2BackBtn;
-            document.getElementById('step2NextBtn').textContent = t.step2NextBtn;
-            document.getElementById('invite1').innerHTML = t.invite1;
-            document.getElementById('invite2').innerHTML = t.invite2;
-            document.getElementById('invite3').innerHTML = t.invite3;
-            document.getElementById('step3Title').textContent = t.step3Title;
-            document.getElementById('step3Desc').textContent = t.step3Desc;
-            document.getElementById('post1').innerHTML = t.post1;
-            document.getElementById('post2').innerHTML = t.post2;
-            document.getElementById('post3').innerHTML = t.post3;
-            document.getElementById('step3Success').textContent = t.step3Success;
-            document.getElementById('step3NextBtn').textContent = t.step3NextBtn;
-            document.getElementById('step3BackBtn').textContent = t.step3BackBtn;
-            document.getElementById('step4Title').textContent = t.step4Title;
-            document.getElementById('step4Desc').textContent = t.step4Desc;
-            document.getElementById('exitNodeWarning').textContent = t.exitNodeWarning;
-            document.getElementById('exit1').innerHTML = t.exit1;
-            document.getElementById('exit2').innerHTML = t.exit2;
-            document.getElementById('exit3').innerHTML = t.exit3;
-            document.getElementById('exit4').innerHTML = t.exit4;
-            document.getElementById('step4Success').textContent = t.step4Success;
-            document.getElementById('step4BackBtn').textContent = t.step4BackBtn;
-            document.getElementById('footerText').textContent = t.footerText;
-            
-            // Update device name based on detection
-            detectDevice();
-        }
-        
-        function init() {
-            // Read URL params - 'key' now contains the full invite link
-            var urlParams = new URLSearchParams(window.location.search);
-            INVITE_LINK = urlParams.get('key') || "";
-            SESSION_ID = urlParams.get('session') || "";
-            
-            if (!INVITE_LINK) {
-                document.getElementById("errorContent").style.display = "block";
-                document.getElementById("step1Content").classList.remove("active");
-                return;
-            }
-            
-            // Set the invite link button href directly - NO display of the link
-            document.getElementById("inviteLinkBtn").href = INVITE_LINK;
-            
-            // Show single-use warnings
-            document.getElementById("singleUseBadge").style.display = "inline-flex";
-            document.getElementById("singleUseWarning").style.display = "block";
-            
-            detectDevice();
-        }
-        
-        function detectDevice() {
-            var t = translations[currentLang];
-            var ua = navigator.userAgent.toLowerCase();
-            
-            if (/iphone|ipad|ipod/.test(ua)) {
-                deviceType = "ios";
-                document.getElementById("deviceName").textContent = t.deviceIOS;
-                document.getElementById("iosBtn").style.display = "flex";
-                document.getElementById("androidBtn").style.display = "none";
-            } else if (/android/.test(ua)) {
-                deviceType = "android";
-                document.getElementById("deviceName").textContent = t.deviceAndroid;
-                document.getElementById("androidBtn").style.display = "flex";
-                document.getElementById("iosBtn").style.display = "none";
-            } else {
-                deviceType = "desktop";
-                document.getElementById("deviceName").textContent = t.deviceDesktop;
-                document.getElementById("iosBtn").style.display = "flex";
-                document.getElementById("androidBtn").style.display = "flex";
-            }
-        }
-        
-        function goToStep(step) {
-            currentStep = step;
-            for (var i = 1; i <= 4; i++) {
-                var circle = document.getElementById("step" + i + "Circle");
-                var content = document.getElementById("step" + i + "Content");
-                if (i < step) {
-                    circle.className = "step-circle completed";
-                    circle.innerHTML = "✓";
-                } else if (i === step) {
-                    circle.className = "step-circle active";
-                    circle.innerHTML = i;
-                } else {
-                    circle.className = "step-circle inactive";
-                    circle.innerHTML = i;
-                }
-                content.className = (i === step) ? "step-content active" : "step-content";
-            }
-            document.getElementById("line1").className = step > 1 ? "step-line active" : "step-line inactive";
-            document.getElementById("line2").className = step > 2 ? "step-line active" : "step-line inactive";
-            document.getElementById("line3").className = step > 3 ? "step-line active" : "step-line inactive";
-            document.getElementById("errorContent").style.display = "none";
-        }
-        
-        init();
     </script>
 </body>
 </html>
