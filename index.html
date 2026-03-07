@@ -3,30 +3,246 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEFF M3 Pro - Setup</title>
+    <title>MEFF M3 Pro - Setup Connessione Remota</title>
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#0a0a0a,#1a1a2e,#0f0f23);min-height:100vh;color:#fff;padding:20px}
-        .container{max-width:600px;margin:0 auto}
-        .logo{text-align:center;margin-bottom:30px}
-        .logo h1{font-size:2rem;background:linear-gradient(90deg,#00d4ff,#7b2cbf);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .logo p{color:#888;margin-top:5px}
-        .card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:24px;margin-bottom:20px}
-        .card h2{color:#00d4ff;margin-bottom:15px}
-        .step{display:flex;align-items:flex-start;margin-bottom:20px;padding:15px;background:rgba(0,212,255,0.05);border-radius:12px;border-left:3px solid #00d4ff}
-        .step-number{background:#00d4ff;color:#000;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;margin-right:15px;flex-shrink:0}
-        .step-content h3{margin-bottom:8px}
-        .step-content p{color:#aaa;font-size:0.9rem;line-height:1.5}
-        .download-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(90deg,#00d4ff,#7b2cbf);color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin-top:10px}
-        .command-box{background:#000;border:1px solid #333;border-radius:8px;padding:15px;margin:15px 0;position:relative}
-        .command-box code{color:#00ff88;font-family:monospace;font-size:0.8rem;word-break:break-all;display:block;padding-right:60px}
-        .copy-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:#00d4ff;color:#000;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:600}
-        .copy-btn.copied{background:#00ff88}
-        .timer{display:inline-flex;align-items:center;gap:8px;background:rgba(255,193,7,0.2);padding:8px 16px;border-radius:20px;color:#ffc107;margin-bottom:15px}
-        .warning{background:rgba(255,193,7,0.1);border:1px solid rgba(255,193,7,0.3);border-radius:8px;padding:15px;margin-top:15px}
-        .warning p{color:#ffc107;font-size:0.9rem}
-        .no-key{text-align:center;padding:40px}
-        .no-key h2{color:#ff6b6b;margin-bottom:15px}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f0f23 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo h1 {
+            font-size: 2rem;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .logo p {
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .card h2 {
+            color: #00d4ff;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(0,212,255,0.05);
+            border-radius: 12px;
+            border-left: 3px solid #00d4ff;
+        }
+        
+        .step-number {
+            background: #00d4ff;
+            color: #000;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .step-content h3 {
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+        
+        .step-content p {
+            color: #aaa;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,212,255,0.3);
+        }
+        
+        .command-box {
+            background: #000;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            position: relative;
+        }
+        
+        .command-box code {
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            word-break: break-all;
+            display: block;
+            padding-right: 40px;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #00d4ff;
+            color: #000;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: background 0.2s;
+        }
+        
+        .copy-btn:hover {
+            background: #00b8e6;
+        }
+        
+        .copy-btn.copied {
+            background: #00ff88;
+        }
+        
+        .warning {
+            background: rgba(255,193,7,0.1);
+            border: 1px solid rgba(255,193,7,0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .warning p {
+            color: #ffc107;
+            font-size: 0.9rem;
+        }
+        
+        .success-card {
+            background: rgba(0,255,136,0.1);
+            border: 1px solid rgba(0,255,136,0.3);
+        }
+        
+        .success-card h2 {
+            color: #00ff88;
+        }
+        
+        .timer {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,193,7,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #ffc107;
+            margin-bottom: 15px;
+        }
+        
+        .no-key {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .no-key h2 {
+            color: #ff6b6b;
+            margin-bottom: 15px;
+        }
+        
+        .no-key p {
+            color: #888;
+        }
+        
+        .platform-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .platform-tab {
+            flex: 1;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .platform-tab:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .platform-tab.active {
+            background: rgba(0,212,255,0.2);
+            border-color: #00d4ff;
+        }
+        
+        .platform-content {
+            display: none;
+        }
+        
+        .platform-content.active {
+            display: block;
+        }
+
+        @media (max-width: 480px) {
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+            
+            .command-box code {
+                font-size: 0.75rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -35,34 +251,233 @@
             <h1>🛡️ MEFF M3 Pro</h1>
             <p>Setup Connessione Sicura</p>
         </div>
-        <div id="content"></div>
+        
+        <div id="content">
+            <!-- Content will be loaded by JavaScript -->
+        </div>
     </div>
+
     <script>
+        // Leggi parametri dall'URL
         const urlParams = new URLSearchParams(window.location.search);
         const authKey = urlParams.get('authkey') || urlParams.get('key') || '';
+        
         const contentDiv = document.getElementById('content');
+        
+        // Tempo rimanente (1 ora = 3600 secondi)
         let timeRemaining = 3600;
         
-        function formatTime(s){const m=Math.floor(s/60);return m+':'+(s%60).toString().padStart(2,'0')}
-        function copyCmd(btn,txt){navigator.clipboard.writeText(txt).then(()=>{btn.textContent='✓ Copiato!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copia';btn.classList.remove('copied')},2000)})}
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
         
-        if(authKey && authKey.startsWith('tskey-')){
-            const cmd=`tailscale up --authkey=${authKey}`;
-            contentDiv.innerHTML=`
-                <div class="timer" id="timer">⏱️ Chiave valida per: <strong>${formatTime(timeRemaining)}</strong></div>
-                <div class="card">
-                    <h2>📋 Istruzioni Connessione</h2>
-                    <div class="step"><div class="step-number">1</div><div class="step-content"><h3>Scarica Tailscale</h3><p>Installa l'app VPN sicura.</p><a href="https://pkgs.tailscale.com/stable/tailscale-setup-latest.exe" class="download-btn" target="_blank">⬇️ Windows</a> <a href="https://apps.apple.com/app/tailscale/id1475387142" class="download-btn" target="_blank">🍎 Mac</a></div></div>
-                    <div class="step"><div class="step-number">2</div><div class="step-content"><h3>Apri Terminale/PowerShell (Admin)</h3><p>Windows: Win+X → PowerShell (Admin)<br>Mac: Cerca "Terminale"</p></div></div>
-                    <div class="step"><div class="step-number">3</div><div class="step-content"><h3>Esegui questo comando</h3><div class="command-box"><code>${cmd}</code><button class="copy-btn" onclick="copyCmd(this,'${cmd}')">Copia</button></div></div></div>
-                    <div class="warning"><p>⚠️ Chiave valida 1 ora e monouso. Se scade, richiedi nuovo link.</p></div>
+        function copyCommand(btn, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                btn.textContent = '✓ Copiato!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'Copia';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+        
+        function showPlatform(platform) {
+            document.querySelectorAll('.platform-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.platform-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelector(`[data-platform="${platform}"]`).classList.add('active');
+            document.getElementById(`content-${platform}`).classList.add('active');
+        }
+        
+        if (authKey && authKey.startsWith('tskey-')) {
+            // Auth Key valida - mostra istruzioni
+            const command = `tailscale up --authkey=${authKey}`;
+            
+            contentDiv.innerHTML = `
+                <div class="timer" id="timer">
+                    ⏱️ Chiave valida per: <strong>${formatTime(timeRemaining)}</strong>
                 </div>
-                <div class="card" style="background:rgba(0,255,136,0.1);border-color:rgba(0,255,136,0.3)"><h2 style="color:#00ff88">✅ Dopo la connessione</h2><p style="color:#aaa">Il tecnico potrà analizzare il traffico in modo sicuro e crittografato.</p></div>`;
-            setInterval(()=>{timeRemaining--;const t=document.getElementById('timer');if(t){t.innerHTML=timeRemaining>0?`⏱️ Chiave valida per: <strong>${formatTime(timeRemaining)}</strong>`:'❌ <strong>Chiave scaduta!</strong>';if(timeRemaining<=0){t.style.background='rgba(255,107,107,0.2)';t.style.color='#ff6b6b'}}},1000);
-        }else if(authKey){
-            window.location.href=authKey;
-        }else{
-            contentDiv.innerHTML='<div class="card no-key"><h2>⚠️ Link non valido</h2><p style="color:#888">Contatta il tecnico per un nuovo link.</p></div>';
+                
+                <div class="card">
+                    <h2>📱 Seleziona il tuo dispositivo</h2>
+                    
+                    <div class="platform-tabs">
+                        <div class="platform-tab active" data-platform="windows" onclick="showPlatform('windows')">
+                            💻 Windows
+                        </div>
+                        <div class="platform-tab" data-platform="mac" onclick="showPlatform('mac')">
+                            🍎 Mac
+                        </div>
+                        <div class="platform-tab" data-platform="mobile" onclick="showPlatform('mobile')">
+                            📱 Mobile
+                        </div>
+                    </div>
+                    
+                    <!-- WINDOWS -->
+                    <div id="content-windows" class="platform-content active">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h3>Scarica Tailscale</h3>
+                                <p>Installa Tailscale sul tuo computer Windows.</p>
+                                <a href="https://pkgs.tailscale.com/stable/tailscale-setup-latest.exe" 
+                                   class="download-btn" target="_blank">
+                                    ⬇️ Scarica per Windows
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h3>Apri PowerShell come Amministratore</h3>
+                                <p>Premi <strong>Win + X</strong> e seleziona "PowerShell (Admin)" o "Terminale (Admin)".</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h3>Esegui questo comando</h3>
+                                <p>Copia e incolla il comando nel terminale:</p>
+                                <div class="command-box">
+                                    <code id="cmd-windows">${command}</code>
+                                    <button class="copy-btn" onclick="copyCommand(this, '${command}')">Copia</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- MAC -->
+                    <div id="content-mac" class="platform-content">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h3>Scarica Tailscale</h3>
+                                <p>Installa Tailscale dal Mac App Store.</p>
+                                <a href="https://apps.apple.com/app/tailscale/id1475387142" 
+                                   class="download-btn" target="_blank">
+                                    ⬇️ Apri App Store
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h3>Apri Terminale</h3>
+                                <p>Cerca "Terminale" in Spotlight (Cmd + Spazio).</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h3>Esegui questo comando</h3>
+                                <div class="command-box">
+                                    <code>${command}</code>
+                                    <button class="copy-btn" onclick="copyCommand(this, '${command}')">Copia</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- MOBILE -->
+                    <div id="content-mobile" class="platform-content">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h3>Scarica Tailscale</h3>
+                                <p>Installa l'app Tailscale sul tuo telefono.</p>
+                                <a href="https://apps.apple.com/app/tailscale/id1470499037" 
+                                   class="download-btn" target="_blank" style="margin-right: 10px;">
+                                    🍎 iOS
+                                </a>
+                                <a href="https://play.google.com/store/apps/details?id=com.tailscale.ipn" 
+                                   class="download-btn" target="_blank">
+                                    🤖 Android
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h3>Copia la Auth Key</h3>
+                                <p>Copia questa chiave:</p>
+                                <div class="command-box">
+                                    <code style="font-size: 0.7rem;">${authKey}</code>
+                                    <button class="copy-btn" onclick="copyCommand(this, '${authKey}')">Copia</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h3>Connettiti</h3>
+                                <p>Apri l'app Tailscale, vai in <strong>Impostazioni → Usa Auth Key</strong> e incolla la chiave.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="warning">
+                        <p>⚠️ <strong>Importante:</strong> Questa chiave scade tra 1 ora ed è monouso. Se scade, richiedi un nuovo link.</p>
+                    </div>
+                </div>
+                
+                <div class="card success-card">
+                    <h2>✅ Dopo la connessione</h2>
+                    <p style="color: #aaa; line-height: 1.6;">
+                        Una volta connesso, il tecnico potrà analizzare il traffico di rete del tuo dispositivo 
+                        in modo sicuro. La connessione è crittografata e protetta.
+                    </p>
+                </div>
+            `;
+            
+            // Timer countdown
+            const timerInterval = setInterval(() => {
+                timeRemaining--;
+                const timerEl = document.getElementById('timer');
+                if (timerEl) {
+                    timerEl.innerHTML = `⏱️ Chiave valida per: <strong>${formatTime(timeRemaining)}</strong>`;
+                }
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    if (timerEl) {
+                        timerEl.innerHTML = '❌ <strong>Chiave scaduta!</strong> Richiedi un nuovo link.';
+                        timerEl.style.background = 'rgba(255,107,107,0.2)';
+                        timerEl.style.color = '#ff6b6b';
+                    }
+                }
+            }, 1000);
+            
+        } else if (authKey) {
+            // Vecchio formato (invite link) - redirect
+            contentDiv.innerHTML = `
+                <div class="card">
+                    <h2>🔄 Reindirizzamento...</h2>
+                    <p style="color: #aaa;">Verrai reindirizzato alla pagina di login Tailscale.</p>
+                </div>
+            `;
+            setTimeout(() => {
+                window.location.href = authKey;
+            }, 1500);
+        } else {
+            // Nessuna chiave
+            contentDiv.innerHTML = `
+                <div class="card no-key">
+                    <h2>⚠️ Link non valido</h2>
+                    <p>Questo link non contiene una chiave di accesso valida.</p>
+                    <p style="margin-top: 15px;">Contatta il tecnico per ricevere un nuovo link.</p>
+                </div>
+            `;
         }
     </script>
 </body>
