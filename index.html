@@ -601,10 +601,14 @@
                 selectDevice: "Seleziona dispositivo",
                 authKeyTitle: "Chiave di Autenticazione",
                 authKeySubtitle: "Copia e incolla nell'app Tailscale",
+                inviteLinkTitle: "Link di Connessione",
+                inviteLinkSubtitle: "Tocca il pulsante per connetterti",
                 copyKey: "📋 COPIA CHIAVE",
                 copied: "✓ COPIATO!",
                 openApp: "🚀 APRI APP TAILSCALE",
+                connectNow: "🔗 CONNETTI ORA",
                 stepsTitle: "Come connettersi",
+                stepsInviteTitle: "Connessione semplice",
                 step1Title: "Scarica Tailscale",
                 step1Desc: "Se non l'hai già, scarica l'app gratuita",
                 step2Title: "Apri l'app",
@@ -616,6 +620,14 @@
                 step4Desc: "Tocca \"Consenti\" quando richiesto",
                 step5Title: "Connesso!",
                 step5Desc: "Vedrai \"Connected\" - Ora il tecnico può analizzare il traffico",
+                inviteStep1Title: "Tocca \"Connetti Ora\"",
+                inviteStep1Desc: "Si aprirà la pagina di login Tailscale",
+                inviteStep2Title: "Accedi con Google/Microsoft",
+                inviteStep2Desc: "Usa il tuo account per autenticarti",
+                inviteStep3Title: "Scarica l'app",
+                inviteStep3Desc: "Se richiesto, installa Tailscale sul dispositivo",
+                inviteStep4Title: "Connesso!",
+                inviteStep4Desc: "La connessione è automatica - Sei pronto!",
                 successTitle: "Dopo la connessione",
                 successDesc: "Il tecnico potrà analizzare il traffico di rete in modo sicuro. Mantieni l'app Tailscale aperta durante la scansione.",
                 errorTitle: "Link non valido",
@@ -631,10 +643,14 @@
                 selectDevice: "Select your device",
                 authKeyTitle: "Authentication Key",
                 authKeySubtitle: "Copy and paste in Tailscale app",
+                inviteLinkTitle: "Connection Link",
+                inviteLinkSubtitle: "Tap the button to connect",
                 copyKey: "📋 COPY KEY",
                 copied: "✓ COPIED!",
                 openApp: "🚀 OPEN TAILSCALE APP",
+                connectNow: "🔗 CONNECT NOW",
                 stepsTitle: "How to connect",
+                stepsInviteTitle: "Simple connection",
                 step1Title: "Download Tailscale",
                 step1Desc: "If you don't have it, download the free app",
                 step2Title: "Open the app",
@@ -646,6 +662,14 @@
                 step4Desc: "Tap \"Allow\" when prompted",
                 step5Title: "Connected!",
                 step5Desc: "You'll see \"Connected\" - Now the technician can analyze traffic",
+                inviteStep1Title: "Tap \"Connect Now\"",
+                inviteStep1Desc: "The Tailscale login page will open",
+                inviteStep2Title: "Sign in with Google/Microsoft",
+                inviteStep2Desc: "Use your account to authenticate",
+                inviteStep3Title: "Download the app",
+                inviteStep3Desc: "If prompted, install Tailscale on your device",
+                inviteStep4Title: "Connected!",
+                inviteStep4Desc: "Connection is automatic - You're ready!",
                 successTitle: "After connecting",
                 successDesc: "The technician will be able to analyze network traffic securely. Keep Tailscale app open during the scan.",
                 errorTitle: "Invalid link",
@@ -727,6 +751,7 @@
         
         function renderContent() {
             const urlParams = new URLSearchParams(window.location.search);
+            // Accetta sia 'authkey' che 'key' come parametro
             const authKey = urlParams.get('authkey') || urlParams.get('key') || '';
             const contentDiv = document.getElementById('content');
             
@@ -739,7 +764,10 @@
             const isAndroid = /Android/.test(navigator.userAgent);
             const defaultPlatform = isIOS ? 'ios' : 'android';
             
-            if (authKey && authKey.startsWith('tskey-')) {
+            // Verifica se è un auth key valido (tskey-auth-xxx) o un invite URL (https://login.tailscale.com)
+            const isValidKey = authKey && (authKey.startsWith('tskey-') || authKey.includes('tailscale.com'));
+            
+            if (isValidKey) {
                 contentDiv.innerHTML = `
                     <!-- Timer -->
                     <div class="timer-container" id="timer-container">
