@@ -299,6 +299,11 @@
             // Auth Key valida - mostra istruzioni
             const command = `tailscale up --authkey=${authKey}`;
             
+            // Rileva piattaforma automaticamente
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            const isAndroid = /Android/.test(navigator.userAgent);
+            const defaultPlatform = isIOS ? 'ios' : (isAndroid ? 'android' : 'ios');
+            
             contentDiv.innerHTML = `
                 <div class="timer" id="timer">
                     ⏱️ Chiave valida per: <strong>${formatTime(timeRemaining)}</strong>
@@ -308,100 +313,24 @@
                     <h2>📱 Seleziona il tuo dispositivo</h2>
                     
                     <div class="platform-tabs">
-                        <div class="platform-tab active" data-platform="windows" onclick="showPlatform('windows')">
-                            💻 Windows
+                        <div class="platform-tab ${defaultPlatform === 'ios' ? 'active' : ''}" data-platform="ios" onclick="showPlatform('ios')">
+                            🍎 iPhone/iPad
                         </div>
-                        <div class="platform-tab" data-platform="mac" onclick="showPlatform('mac')">
-                            🍎 Mac
-                        </div>
-                        <div class="platform-tab" data-platform="mobile" onclick="showPlatform('mobile')">
-                            📱 Mobile
+                        <div class="platform-tab ${defaultPlatform === 'android' ? 'active' : ''}" data-platform="android" onclick="showPlatform('android')">
+                            🤖 Android
                         </div>
                     </div>
                     
-                    <!-- WINDOWS -->
-                    <div id="content-windows" class="platform-content active">
+                    <!-- iOS -->
+                    <div id="content-ios" class="platform-content ${defaultPlatform === 'ios' ? 'active' : ''}">
                         <div class="step">
                             <div class="step-number">1</div>
                             <div class="step-content">
                                 <h3>Scarica Tailscale</h3>
-                                <p>Installa Tailscale sul tuo computer Windows.</p>
-                                <a href="https://pkgs.tailscale.com/stable/tailscale-setup-latest.exe" 
-                                   class="download-btn" target="_blank">
-                                    ⬇️ Scarica per Windows
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-number">2</div>
-                            <div class="step-content">
-                                <h3>Apri PowerShell come Amministratore</h3>
-                                <p>Premi <strong>Win + X</strong> e seleziona "PowerShell (Admin)" o "Terminale (Admin)".</p>
-                            </div>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-number">3</div>
-                            <div class="step-content">
-                                <h3>Esegui questo comando</h3>
-                                <p>Copia e incolla il comando nel terminale:</p>
-                                <div class="command-box">
-                                    <code id="cmd-windows">${command}</code>
-                                    <button class="copy-btn" onclick="copyCommand(this, '${command}')">Copia</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- MAC -->
-                    <div id="content-mac" class="platform-content">
-                        <div class="step">
-                            <div class="step-number">1</div>
-                            <div class="step-content">
-                                <h3>Scarica Tailscale</h3>
-                                <p>Installa Tailscale dal Mac App Store.</p>
-                                <a href="https://apps.apple.com/app/tailscale/id1475387142" 
-                                   class="download-btn" target="_blank">
-                                    ⬇️ Apri App Store
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-number">2</div>
-                            <div class="step-content">
-                                <h3>Apri Terminale</h3>
-                                <p>Cerca "Terminale" in Spotlight (Cmd + Spazio).</p>
-                            </div>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-number">3</div>
-                            <div class="step-content">
-                                <h3>Esegui questo comando</h3>
-                                <div class="command-box">
-                                    <code>${command}</code>
-                                    <button class="copy-btn" onclick="copyCommand(this, '${command}')">Copia</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- MOBILE -->
-                    <div id="content-mobile" class="platform-content">
-                        <div class="step">
-                            <div class="step-number">1</div>
-                            <div class="step-content">
-                                <h3>Scarica Tailscale</h3>
-                                <p>Installa l'app Tailscale sul tuo telefono.</p>
+                                <p>Installa l'app Tailscale dall'App Store.</p>
                                 <a href="https://apps.apple.com/app/tailscale/id1470499037" 
-                                   class="download-btn" target="_blank" style="margin-right: 10px;">
-                                    🍎 iOS
-                                </a>
-                                <a href="https://play.google.com/store/apps/details?id=com.tailscale.ipn" 
                                    class="download-btn" target="_blank">
-                                    🤖 Android
+                                    ⬇️ Scarica da App Store
                                 </a>
                             </div>
                         </div>
@@ -409,26 +338,95 @@
                         <div class="step">
                             <div class="step-number">2</div>
                             <div class="step-content">
-                                <h3>Copia la Auth Key</h3>
-                                <p>Copia questa chiave:</p>
+                                <h3>Apri l'app e accedi</h3>
+                                <p>Apri Tailscale e tocca <strong>"Get Started"</strong> o <strong>"Inizia"</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h3>Usa Auth Key</h3>
+                                <p>Tocca il menu <strong>⋮</strong> in alto a destra → <strong>"Use auth key"</strong></p>
+                                <p style="margin-top:8px;">Poi incolla questa chiave:</p>
                                 <div class="command-box">
-                                    <code style="font-size: 0.7rem;">${authKey}</code>
+                                    <code style="font-size: 0.65rem; word-break: break-all;">${authKey}</code>
                                     <button class="copy-btn" onclick="copyCommand(this, '${authKey}')">Copia</button>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h3>Consenti VPN</h3>
+                                <p>Quando richiesto, tocca <strong>"Consenti"</strong> per permettere la configurazione VPN.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step" style="border-left-color: #00ff88;">
+                            <div class="step-number" style="background: #00ff88;">✓</div>
+                            <div class="step-content">
+                                <h3>Connesso!</h3>
+                                <p>Quando vedi <strong>"Connected"</strong> o l'icona VPN in alto, sei pronto per la scansione!</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ANDROID -->
+                    <div id="content-android" class="platform-content ${defaultPlatform === 'android' ? 'active' : ''}">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h3>Scarica Tailscale</h3>
+                                <p>Installa l'app Tailscale dal Play Store.</p>
+                                <a href="https://play.google.com/store/apps/details?id=com.tailscale.ipn" 
+                                   class="download-btn" target="_blank">
+                                    ⬇️ Scarica da Play Store
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h3>Apri l'app</h3>
+                                <p>Apri Tailscale e tocca <strong>"Get Started"</strong> o <strong>"Inizia"</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
                             <div class="step-number">3</div>
                             <div class="step-content">
-                                <h3>Connettiti</h3>
-                                <p>Apri l'app Tailscale, vai in <strong>Impostazioni → Usa Auth Key</strong> e incolla la chiave.</p>
+                                <h3>Usa Auth Key</h3>
+                                <p>Tocca il menu <strong>⋮</strong> in alto a destra → <strong>"Use auth key"</strong></p>
+                                <p style="margin-top:8px;">Poi incolla questa chiave:</p>
+                                <div class="command-box">
+                                    <code style="font-size: 0.65rem; word-break: break-all;">${authKey}</code>
+                                    <button class="copy-btn" onclick="copyCommand(this, '${authKey}')">Copia</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h3>Consenti VPN</h3>
+                                <p>Quando richiesto, tocca <strong>"OK"</strong> o <strong>"Consenti"</strong> per attivare la VPN.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step" style="border-left-color: #00ff88;">
+                            <div class="step-number" style="background: #00ff88;">✓</div>
+                            <div class="step-content">
+                                <h3>Connesso!</h3>
+                                <p>Quando vedi <strong>"Connected"</strong> e l'icona 🔑 in alto, sei pronto per la scansione!</p>
                             </div>
                         </div>
                     </div>
                     
                     <div class="warning">
-                        <p>⚠️ <strong>Importante:</strong> Questa chiave scade tra 1 ora ed è monouso. Se scade, richiedi un nuovo link.</p>
+                        <p>⚠️ <strong>Importante:</strong> Questa chiave scade tra 1 ora ed è monouso. Se scade, richiedi un nuovo QR code al tecnico.</p>
                     </div>
                 </div>
                 
@@ -436,7 +434,10 @@
                     <h2>✅ Dopo la connessione</h2>
                     <p style="color: #aaa; line-height: 1.6;">
                         Una volta connesso, il tecnico potrà analizzare il traffico di rete del tuo dispositivo 
-                        in modo sicuro. La connessione è crittografata e protetta.
+                        in modo sicuro. La connessione è crittografata end-to-end.
+                    </p>
+                    <p style="color: #888; font-size: 0.85rem; margin-top: 10px;">
+                        💡 Mantieni l'app Tailscale aperta durante la scansione.
                     </p>
                 </div>
             `;
