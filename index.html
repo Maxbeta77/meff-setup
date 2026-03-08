@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MEFF M3 Pro - Connessione Sicura</title>
+    <title>M3 PRO - Remote Traffic Analyzer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,393 +15,388 @@
         }
         
         :root {
-            --bg-primary: #000000;
-            --bg-secondary: #0a0a0a;
-            --bg-card: #111111;
-            --accent-cyan: #00f0ff;
-            --accent-purple: #a855f7;
-            --accent-green: #00ff88;
-            --accent-red: #ff4757;
-            --text-primary: #ffffff;
-            --text-secondary: #888888;
-            --border-color: #222222;
+            --bg-dark: #000000;
+            --bg-card: #0a0f1a;
+            --accent-blue: #0066ff;
+            --accent-blue-glow: #0088ff;
+            --accent-blue-light: #3399ff;
+            --text-white: #ffffff;
+            --text-gray: #8899aa;
+            --text-light: #ccd6e0;
+            --border-blue: rgba(0, 102, 255, 0.3);
+            --border-blue-strong: rgba(0, 102, 255, 0.6);
         }
         
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-primary);
+            background: var(--bg-dark);
             min-height: 100vh;
-            color: var(--text-primary);
-            overflow-x: hidden;
+            color: var(--text-white);
+            line-height: 1.6;
         }
         
-        /* Animated Background */
-        .bg-grid {
+        /* Background Effect */
+        .bg-gradient {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: 
-                linear-gradient(rgba(0,240,255,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,240,255,0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
+            background: 
+                radial-gradient(ellipse at 50% 0%, rgba(0, 102, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 100%, rgba(0, 102, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(ellipse at 0% 100%, rgba(0, 102, 255, 0.1) 0%, transparent 40%);
             pointer-events: none;
             z-index: 0;
-        }
-        
-        .glow-orb {
-            position: fixed;
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.15;
-            pointer-events: none;
-            z-index: 0;
-        }
-        
-        .glow-orb-1 {
-            background: var(--accent-cyan);
-            top: -100px;
-            right: -100px;
-            animation: float 8s ease-in-out infinite;
-        }
-        
-        .glow-orb-2 {
-            background: var(--accent-purple);
-            bottom: -100px;
-            left: -100px;
-            animation: float 10s ease-in-out infinite reverse;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(30px, 30px); }
         }
         
         .container {
-            max-width: 480px;
+            max-width: 500px;
             margin: 0 auto;
             padding: 20px;
             position: relative;
             z-index: 1;
         }
         
-        /* Header */
-        .header {
-            text-align: center;
-            padding: 30px 0;
-        }
-        
-        .logo-container {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-            border-radius: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 40px rgba(0,240,255,0.3);
-        }
-        
-        .logo-icon {
-            font-size: 40px;
-        }
-        
-        .brand-name {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.5px;
-        }
-        
-        .brand-subtitle {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-top: 5px;
-        }
-        
-        /* Language Switcher */
-        .lang-switcher {
+        /* Language Selector */
+        .lang-selector {
             display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-bottom: 20px;
         }
         
         .lang-btn {
-            padding: 8px 20px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            font-weight: 600;
+            background: transparent;
+            border: 1px solid var(--border-blue);
+            color: var(--text-gray);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
         
         .lang-btn:hover {
-            border-color: var(--accent-cyan);
-            color: var(--text-primary);
+            border-color: var(--accent-blue);
+            color: var(--text-white);
         }
         
         .lang-btn.active {
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-            border-color: transparent;
-            color: #000;
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+            color: var(--text-white);
+        }
+        
+        /* Logo Header */
+        .logo-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-blue-strong);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 24px;
+            box-shadow: 
+                0 0 40px rgba(0, 102, 255, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        
+        .logo-title {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, var(--text-white) 0%, var(--accent-blue-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+        
+        .logo-subtitle {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--accent-blue-light);
+            letter-spacing: 3px;
+            text-transform: uppercase;
         }
         
         /* Timer */
-        .timer-container {
-            background: linear-gradient(135deg, rgba(255,71,87,0.1), rgba(168,85,247,0.1));
-            border: 1px solid rgba(255,71,87,0.3);
-            border-radius: 12px;
-            padding: 15px 20px;
+        .timer-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-blue);
+            border-radius: 10px;
+            padding: 14px 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 25px;
+            gap: 10px;
+            margin-bottom: 20px;
         }
         
         .timer-icon {
-            font-size: 1.5rem;
-            animation: pulse 1s ease-in-out infinite;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent-blue);
+            border-radius: 50%;
+            position: relative;
         }
         
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        .timer-icon::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 2px;
+            height: 6px;
+            background: var(--accent-blue);
+            transform: translate(-50%, -100%) rotate(0deg);
+            transform-origin: bottom center;
+            animation: tick 60s linear infinite;
+        }
+        
+        @keyframes tick {
+            to { transform: translate(-50%, -100%) rotate(360deg); }
         }
         
         .timer-text {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        
+        .timer-value {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 1.1rem;
             font-weight: 600;
-            color: var(--accent-red);
+            color: var(--accent-blue-light);
         }
         
         .timer-expired {
-            background: rgba(255,71,87,0.2);
-            border-color: var(--accent-red);
+            border-color: #ff4444;
+        }
+        
+        .timer-expired .timer-text,
+        .timer-expired .timer-value {
+            color: #ff6666;
         }
         
         /* Platform Tabs */
         .platform-tabs {
             display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
+            gap: 12px;
+            margin-bottom: 20px;
         }
         
         .platform-tab {
             flex: 1;
-            padding: 15px;
             background: var(--bg-card);
-            border: 2px solid var(--border-color);
+            border: 1px solid var(--border-blue);
             border-radius: 12px;
+            padding: 16px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
         
         .platform-tab:hover {
-            border-color: var(--accent-cyan);
-            transform: translateY(-2px);
+            border-color: var(--accent-blue);
         }
         
         .platform-tab.active {
-            background: linear-gradient(135deg, rgba(0,240,255,0.1), rgba(168,85,247,0.1));
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 20px rgba(0,240,255,0.2);
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 20px rgba(0, 102, 255, 0.3);
         }
         
         .platform-icon {
-            font-size: 2rem;
-            margin-bottom: 8px;
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 8px;
+        }
+        
+        .platform-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
         
         .platform-name {
+            font-size: 14px;
             font-weight: 600;
-            font-size: 0.9rem;
+            color: var(--text-white);
         }
         
-        /* Auth Key Card */
-        .key-card {
+        /* Cards */
+        .card {
             background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 25px;
+            border: 1px solid var(--border-blue);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
         }
         
-        .key-card-header {
+        .card-header {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 14px;
+            margin-bottom: 16px;
         }
         
-        .key-icon {
+        .card-icon {
             width: 44px;
             height: 44px;
-            background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-        }
-        
-        .key-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-        
-        .key-subtitle {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-        
-        .key-display {
-            background: #000;
-            border: 2px solid var(--accent-cyan);
-            border-radius: 12px;
-            padding: 15px;
-            position: relative;
-            margin-bottom: 15px;
-        }
-        
-        .key-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
-            color: var(--accent-green);
-            word-break: break-all;
-            line-height: 1.5;
-            padding-right: 10px;
-        }
-        
-        .copy-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-            border: none;
-            border-radius: 12px;
-            color: #000;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-        }
-        
-        .copy-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0,240,255,0.3);
-        }
-        
-        .copy-btn:active {
-            transform: translateY(0);
-        }
-        
-        .copy-btn.copied {
-            background: linear-gradient(135deg, var(--accent-green), #00cc6a);
-        }
-        
-        /* Open App Button */
-        .open-app-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            border: 2px solid var(--accent-purple);
-            border-radius: 12px;
-            color: var(--text-primary);
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            transition: all 0.3s ease;
-            margin-bottom: 25px;
-            text-decoration: none;
-        }
-        
-        .open-app-btn:hover {
-            background: linear-gradient(135deg, var(--accent-purple), #7c3aed);
-            border-color: var(--accent-purple);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(168,85,247,0.3);
-        }
-        
-        /* Steps */
-        .steps-container {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 25px;
-        }
-        
-        .steps-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .steps-icon {
-            font-size: 1.5rem;
-        }
-        
-        .steps-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-        
-        .step {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: rgba(0,240,255,0.03);
-            border-radius: 12px;
-            border-left: 3px solid var(--accent-cyan);
-            transition: all 0.3s ease;
-        }
-        
-        .step:hover {
-            background: rgba(0,240,255,0.08);
-            transform: translateX(5px);
-        }
-        
-        .step:last-child {
-            margin-bottom: 0;
-        }
-        
-        .step-number {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            background: linear-gradient(135deg, var(--accent-blue) 0%, #0044cc 100%);
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        
+        .card-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: white;
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-white);
+        }
+        
+        .card-subtitle {
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+        
+        .card-exit-node {
+            border-color: #00cc66;
+        }
+        
+        .card-exit-node .card-icon {
+            background: linear-gradient(135deg, #00cc66 0%, #009944 100%);
+        }
+        
+        .card-exit-node .card-title {
+            color: #00ff88;
+        }
+        
+        /* Key Display */
+        .key-display {
+            background: #000;
+            border: 1px solid var(--border-blue);
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+        
+        .key-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--accent-blue-light);
+            word-break: break-all;
+            line-height: 1.5;
+        }
+        
+        .key-display-green {
+            border-color: rgba(0, 204, 102, 0.4);
+        }
+        
+        .key-display-green .key-value {
+            color: #00ff88;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue) 0%, #0044cc 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 0 20px rgba(0, 102, 255, 0.5);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border-blue);
+            color: var(--text-white);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--accent-blue);
+            background: rgba(0, 102, 255, 0.1);
+        }
+        
+        .btn-green {
+            background: linear-gradient(135deg, #00cc66 0%, #009944 100%);
+        }
+        
+        .btn-green:hover {
+            box-shadow: 0 0 20px rgba(0, 204, 102, 0.5);
+        }
+        
+        .btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+        
+        /* Steps */
+        .steps-section {
+            margin-top: 20px;
+        }
+        
+        .steps-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-white);
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-blue);
+        }
+        
+        .step {
+            display: flex;
+            gap: 14px;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .step:last-child {
+            border-bottom: none;
+        }
+        
+        .step-number {
+            width: 28px;
+            height: 28px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
             font-weight: 700;
-            font-size: 0.9rem;
-            color: #000;
+            color: white;
             flex-shrink: 0;
+        }
+        
+        .step-exit-node .step-number {
+            background: #00cc66;
         }
         
         .step-content {
@@ -409,123 +404,74 @@
         }
         
         .step-title {
+            font-size: 14px;
             font-weight: 600;
-            margin-bottom: 5px;
-            font-size: 0.95rem;
+            color: var(--text-white);
+            margin-bottom: 4px;
+        }
+        
+        .step-exit-node .step-title {
+            color: #00ff88;
         }
         
         .step-desc {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            line-height: 1.5;
+            font-size: 13px;
+            color: var(--text-gray);
         }
         
-        .step-success {
-            border-left-color: var(--accent-green);
+        .step-highlight {
+            display: inline-block;
+            background: rgba(0, 102, 255, 0.2);
+            border: 1px solid var(--border-blue);
+            border-radius: 6px;
+            padding: 6px 12px;
+            margin-top: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--accent-blue-light);
         }
         
-        .step-success .step-number {
-            background: var(--accent-green);
+        .step-highlight-green {
+            background: rgba(0, 204, 102, 0.15);
+            border-color: rgba(0, 204, 102, 0.4);
+            color: #00ff88;
         }
         
         /* Download Buttons */
-        .download-section {
+        .download-row {
             display: flex;
             gap: 10px;
-            margin-top: 15px;
+            margin-top: 10px;
         }
         
         .download-btn {
             flex: 1;
-            padding: 12px 16px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            color: var(--text-primary);
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-decoration: none;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: all 0.3s ease;
+            padding: 10px 14px;
+            background: #111;
+            border: 1px solid var(--border-blue);
+            border-radius: 8px;
+            color: var(--text-white);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s ease;
         }
         
         .download-btn:hover {
-            border-color: var(--accent-cyan);
-            background: rgba(0,240,255,0.1);
-            transform: translateY(-2px);
+            border-color: var(--accent-blue);
+            background: rgba(0, 102, 255, 0.1);
         }
         
-        /* Success Card */
-        .success-card {
-            background: linear-gradient(135deg, rgba(0,255,136,0.1), rgba(0,240,255,0.05));
-            border: 1px solid rgba(0,255,136,0.3);
-            border-radius: 16px;
-            padding: 25px;
-            text-align: center;
+        .download-btn img {
+            width: 18px;
+            height: 18px;
         }
         
-        .success-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-        }
-        
-        .success-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--accent-green);
-            margin-bottom: 10px;
-        }
-        
-        .success-desc {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-        
-        /* Error Card */
-        .error-card {
-            background: rgba(255,71,87,0.1);
-            border: 1px solid rgba(255,71,87,0.3);
-            border-radius: 16px;
-            padding: 40px 25px;
-            text-align: center;
-        }
-        
-        .error-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-        }
-        
-        .error-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--accent-red);
-            margin-bottom: 15px;
-        }
-        
-        .error-desc {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-        
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 30px 0;
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-        }
-        
-        .footer a {
-            color: var(--accent-cyan);
-            text-decoration: none;
-        }
-        
-        /* Hide platform content */
+        /* Platform Content */
         .platform-content {
             display: none;
         }
@@ -534,149 +480,225 @@
             display: block;
         }
         
-        /* Responsive */
-        @media (max-width: 400px) {
-            .container {
-                padding: 15px;
-            }
-            
-            .brand-name {
-                font-size: 1.5rem;
-            }
-            
-            .key-value {
-                font-size: 0.55rem;
-            }
-            
-            .platform-icon {
-                font-size: 1.5rem;
-            }
-            
-            .platform-name {
-                font-size: 0.8rem;
-            }
+        /* Success Box */
+        .success-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-blue);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .success-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-blue) 0%, #0044cc 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+        }
+        
+        .success-icon svg {
+            width: 26px;
+            height: 26px;
+            fill: white;
+        }
+        
+        .success-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-white);
+            margin-bottom: 8px;
+        }
+        
+        .success-desc {
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+        
+        /* Error State */
+        .error-box {
+            background: var(--bg-card);
+            border: 1px solid #ff4444;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .error-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+        
+        .error-icon svg {
+            width: 30px;
+            height: 30px;
+            fill: white;
+        }
+        
+        .error-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ff6666;
+            margin-bottom: 10px;
+        }
+        
+        .error-desc {
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .footer-text {
+            font-size: 12px;
+            color: var(--text-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .footer-text svg {
+            width: 14px;
+            height: 14px;
+            fill: var(--accent-blue);
         }
     </style>
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="bg-grid"></div>
-    <div class="glow-orb glow-orb-1"></div>
-    <div class="glow-orb glow-orb-2"></div>
+    <div class="bg-gradient"></div>
     
     <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo-container">
-                <span class="logo-icon">🛡️</span>
-            </div>
-            <h1 class="brand-name">MEFF M3 Pro</h1>
-            <p class="brand-subtitle" data-i18n="subtitle">Connessione Sicura per Analisi</p>
+        <!-- Language Selector -->
+        <div class="lang-selector">
+            <button class="lang-btn active" onclick="setLanguage('it')">IT</button>
+            <button class="lang-btn" onclick="setLanguage('en')">EN</button>
         </div>
         
-        <!-- Language Switcher -->
-        <div class="lang-switcher">
-            <button class="lang-btn active" onclick="setLanguage('it')">🇮🇹 Italiano</button>
-            <button class="lang-btn" onclick="setLanguage('en')">🇬🇧 English</button>
+        <!-- Logo Header -->
+        <div class="logo-box">
+            <div class="logo-title">M3 PRO</div>
+            <div class="logo-subtitle" data-i18n="logoSubtitle">Remote Traffic Analyzer</div>
         </div>
         
-        <div id="content">
-            <!-- Content loaded by JavaScript -->
-        </div>
+        <!-- Content -->
+        <div id="content"></div>
         
         <!-- Footer -->
         <div class="footer">
-            <p>🔒 <span data-i18n="footerSecure">Connessione crittografata end-to-end</span></p>
-            <p style="margin-top: 8px;">MEFF M3 Pro © 2024 - <a href="https://m2look.com">m2look.com</a></p>
+            <div class="footer-text">
+                <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                <span data-i18n="footer">Connessione crittografata end-to-end</span>
+            </div>
         </div>
     </div>
+
+    <!-- SVG Icons (hidden) -->
+    <svg style="display: none;">
+        <defs>
+            <symbol id="icon-key" viewBox="0 0 24 24">
+                <path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+            </symbol>
+            <symbol id="icon-globe" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+            </symbol>
+            <symbol id="icon-copy" viewBox="0 0 24 24">
+                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+            </symbol>
+            <symbol id="icon-check" viewBox="0 0 24 24">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+            </symbol>
+            <symbol id="icon-lock" viewBox="0 0 24 24">
+                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+            </symbol>
+            <symbol id="icon-error" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+            </symbol>
+            <symbol id="icon-open" viewBox="0 0 24 24">
+                <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+            </symbol>
+        </defs>
+    </svg>
 
     <script>
         // Translations
         const translations = {
             it: {
-                subtitle: "Connessione Sicura per Analisi",
+                logoSubtitle: "Remote Traffic Analyzer",
                 timerLabel: "Chiave valida per",
-                timerExpired: "Chiave scaduta! Richiedi nuovo QR code",
-                selectDevice: "Seleziona dispositivo",
+                timerExpired: "Chiave scaduta - Richiedi nuovo codice",
                 authKeyTitle: "Chiave di Autenticazione",
                 authKeySubtitle: "Copia e incolla nell'app Tailscale",
-                inviteLinkTitle: "Link di Connessione",
-                inviteLinkSubtitle: "Tocca il pulsante per connetterti",
-                copyKey: "📋 COPIA CHIAVE",
-                copied: "✓ COPIATO!",
-                openApp: "🚀 APRI APP TAILSCALE",
-                connectNow: "🔗 CONNETTI ORA",
-                stepsTitle: "Come connettersi",
-                stepsInviteTitle: "Connessione semplice",
+                exitNodeTitle: "Exit Node da Attivare",
+                exitNodeSubtitle: "Nome del server per la connessione",
+                copyKey: "Copia Chiave",
+                copyName: "Copia Nome",
+                copied: "Copiato!",
+                openApp: "Apri Tailscale",
+                stepsTitle: "Istruzioni",
                 step1Title: "Scarica Tailscale",
-                step1Desc: "Se non l'hai già, scarica l'app gratuita",
-                step2Title: "Apri l'app",
-                step2Desc: "Tocca il pulsante sopra o apri Tailscale manualmente",
+                step1Desc: "Se non l'hai già installato, scarica l'app gratuita",
+                step2Title: "Apri l'applicazione",
+                step2Desc: "Avvia Tailscale sul tuo dispositivo",
                 step3Title: "Inserisci la chiave",
-                step3DescIOS: "Menu ⋮ in alto → \"Use auth key\" → Incolla",
-                step3DescAndroid: "Menu ⋮ → \"Use auth key\" → Incolla la chiave",
-                step4Title: "Consenti VPN",
-                step4Desc: "Tocca \"Consenti\" quando richiesto",
-                step5Title: "Connesso!",
-                step5Desc: "Vedrai \"Connected\" - Ora il tecnico può analizzare il traffico",
-                inviteStep1Title: "Tocca \"Connetti Ora\"",
-                inviteStep1Desc: "Si aprirà la pagina di login Tailscale",
-                inviteStep2Title: "Accedi con Google/Microsoft",
-                inviteStep2Desc: "Usa il tuo account per autenticarti",
-                inviteStep3Title: "Scarica l'app",
-                inviteStep3Desc: "Se richiesto, installa Tailscale sul dispositivo",
-                inviteStep4Title: "Connesso!",
-                inviteStep4Desc: "La connessione è automatica - Sei pronto!",
-                successTitle: "Dopo la connessione",
-                successDesc: "Il tecnico potrà analizzare il traffico di rete in modo sicuro. Mantieni l'app Tailscale aperta durante la scansione.",
-                errorTitle: "Link non valido",
-                errorDesc: "Questo link non contiene una chiave valida. Contatta il tecnico per ricevere un nuovo QR code.",
-                downloadIOS: "App Store",
-                downloadAndroid: "Play Store",
-                footerSecure: "Connessione crittografata end-to-end"
+                step3DescIOS: "Menu in alto a destra → Use auth key → Incolla",
+                step3DescAndroid: "Menu → Use auth key → Incolla la chiave",
+                step4Title: "Autorizza VPN",
+                step4Desc: "Tocca Consenti quando richiesto dal sistema",
+                step5Title: "Attiva Exit Node",
+                step5DescIOS: "Vai su Exit Node e seleziona il server indicato",
+                step5DescAndroid: "Impostazioni → Usa exit node → Seleziona il server",
+                successTitle: "Connessione Attiva",
+                successDesc: "Il tecnico può ora analizzare il traffico di rete. Mantieni Tailscale aperto durante la scansione.",
+                errorTitle: "Link Non Valido",
+                errorDesc: "Questo link non contiene una chiave valida. Contatta il tecnico per ricevere un nuovo codice.",
+                footer: "Connessione crittografata end-to-end"
             },
             en: {
-                subtitle: "Secure Connection for Analysis",
+                logoSubtitle: "Remote Traffic Analyzer",
                 timerLabel: "Key valid for",
-                timerExpired: "Key expired! Request new QR code",
-                selectDevice: "Select your device",
+                timerExpired: "Key expired - Request new code",
                 authKeyTitle: "Authentication Key",
                 authKeySubtitle: "Copy and paste in Tailscale app",
-                inviteLinkTitle: "Connection Link",
-                inviteLinkSubtitle: "Tap the button to connect",
-                copyKey: "📋 COPY KEY",
-                copied: "✓ COPIED!",
-                openApp: "🚀 OPEN TAILSCALE APP",
-                connectNow: "🔗 CONNECT NOW",
-                stepsTitle: "How to connect",
-                stepsInviteTitle: "Simple connection",
+                exitNodeTitle: "Exit Node to Activate",
+                exitNodeSubtitle: "Server name for connection",
+                copyKey: "Copy Key",
+                copyName: "Copy Name",
+                copied: "Copied!",
+                openApp: "Open Tailscale",
+                stepsTitle: "Instructions",
                 step1Title: "Download Tailscale",
-                step1Desc: "If you don't have it, download the free app",
-                step2Title: "Open the app",
-                step2Desc: "Tap the button above or open Tailscale manually",
+                step1Desc: "If not installed, download the free app",
+                step2Title: "Open the application",
+                step2Desc: "Launch Tailscale on your device",
                 step3Title: "Enter the key",
-                step3DescIOS: "Menu ⋮ at top → \"Use auth key\" → Paste",
-                step3DescAndroid: "Menu ⋮ → \"Use auth key\" → Paste the key",
-                step4Title: "Allow VPN",
-                step4Desc: "Tap \"Allow\" when prompted",
-                step5Title: "Connected!",
-                step5Desc: "You'll see \"Connected\" - Now the technician can analyze traffic",
-                inviteStep1Title: "Tap \"Connect Now\"",
-                inviteStep1Desc: "The Tailscale login page will open",
-                inviteStep2Title: "Sign in with Google/Microsoft",
-                inviteStep2Desc: "Use your account to authenticate",
-                inviteStep3Title: "Download the app",
-                inviteStep3Desc: "If prompted, install Tailscale on your device",
-                inviteStep4Title: "Connected!",
-                inviteStep4Desc: "Connection is automatic - You're ready!",
-                successTitle: "After connecting",
-                successDesc: "The technician will be able to analyze network traffic securely. Keep Tailscale app open during the scan.",
-                errorTitle: "Invalid link",
-                errorDesc: "This link doesn't contain a valid key. Contact the technician for a new QR code.",
-                downloadIOS: "App Store",
-                downloadAndroid: "Play Store",
-                footerSecure: "End-to-end encrypted connection"
+                step3DescIOS: "Top right menu → Use auth key → Paste",
+                step3DescAndroid: "Menu → Use auth key → Paste the key",
+                step4Title: "Authorize VPN",
+                step4Desc: "Tap Allow when prompted by the system",
+                step5Title: "Activate Exit Node",
+                step5DescIOS: "Go to Exit Node and select the indicated server",
+                step5DescAndroid: "Settings → Use exit node → Select the server",
+                successTitle: "Connection Active",
+                successDesc: "The technician can now analyze network traffic. Keep Tailscale open during the scan.",
+                errorTitle: "Invalid Link",
+                errorDesc: "This link does not contain a valid key. Contact the technician for a new code.",
+                footer: "End-to-end encrypted connection"
             }
         };
         
@@ -684,20 +706,19 @@
         let timeRemaining = 3600;
         let timerInterval = null;
         
-        // Detect language from browser
-        const browserLang = navigator.language.substring(0, 2);
-        if (browserLang === 'en') {
-            currentLang = 'en';
-        }
+        // Apple and Android logos (SVG base64)
+        const appleLogo = `<svg viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>`;
+        const androidLogo = `<svg viewBox="0 0 24 24" fill="white"><path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v7c0 .83.67 1.5 1.5 1.5S5 17.33 5 16.5v-7C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-7c0-.83-.67-1.5-1.5-1.5zm-4.97-5.84l1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48C13.85 1.23 12.95 1 12 1c-.96 0-1.86.23-2.66.63L7.85.15c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.31 1.31C6.97 3.26 6 5.01 6 7h12c0-1.99-.97-3.75-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z"/></svg>`;
         
         function t(key) {
-            return translations[currentLang][key] || translations['it'][key] || key;
+            return translations[currentLang][key] || key;
         }
         
         function setLanguage(lang) {
             currentLang = lang;
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent === lang.toUpperCase());
+            });
             renderContent();
         }
         
@@ -707,126 +728,122 @@
             return `${mins}:${secs.toString().padStart(2, '0')}`;
         }
         
-        function copyToClipboard(text, btn) {
+        function copyToClipboard(text, button) {
             navigator.clipboard.writeText(text).then(() => {
-                const originalText = btn.innerHTML;
-                btn.innerHTML = `<span style="font-size: 1.2rem;">✓</span> ${t('copied')}`;
-                btn.classList.add('copied');
+                const originalText = button.innerHTML;
+                button.innerHTML = `<svg><use href="#icon-check"/></svg> ${t('copied')}`;
                 setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.classList.remove('copied');
-                }, 2500);
-            }).catch(() => {
-                // Fallback for older browsers
-                const textarea = document.createElement('textarea');
-                textarea.value = text;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                btn.innerHTML = `<span style="font-size: 1.2rem;">✓</span> ${t('copied')}`;
-                btn.classList.add('copied');
-                setTimeout(() => {
-                    btn.innerHTML = `<span style="font-size: 1.2rem;">📋</span> ${t('copyKey')}`;
-                    btn.classList.remove('copied');
-                }, 2500);
+                    button.innerHTML = originalText;
+                }, 2000);
             });
         }
         
         function showPlatform(platform) {
-            document.querySelectorAll('.platform-tab').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.platform-content').forEach(content => content.classList.remove('active'));
-            document.querySelector(`[data-platform="${platform}"]`).classList.add('active');
-            document.getElementById(`content-${platform}`).classList.add('active');
-        }
-        
-        function getDeepLink(authKey, platform) {
-            // Tailscale deep links
-            if (platform === 'ios') {
-                return `tailscale://`;
-            } else {
-                return `tailscale://`;
-            }
+            document.querySelectorAll('.platform-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.platform === platform);
+            });
+            document.querySelectorAll('.platform-content').forEach(content => {
+                content.classList.toggle('active', content.id === `content-${platform}`);
+            });
         }
         
         function renderContent() {
             const urlParams = new URLSearchParams(window.location.search);
-            // Accetta sia 'authkey' che 'key' come parametro
             const authKey = urlParams.get('authkey') || urlParams.get('key') || '';
+            const exitNode = urlParams.get('exitnode') || urlParams.get('exit') || '';
             const contentDiv = document.getElementById('content');
             
             // Update static translations
-            document.querySelector('[data-i18n="subtitle"]').textContent = t('subtitle');
-            document.querySelector('[data-i18n="footerSecure"]').textContent = t('footerSecure');
+            document.querySelector('[data-i18n="logoSubtitle"]').textContent = t('logoSubtitle');
+            document.querySelector('[data-i18n="footer"]').textContent = t('footer');
             
             // Detect platform
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-            const isAndroid = /Android/.test(navigator.userAgent);
             const defaultPlatform = isIOS ? 'ios' : 'android';
             
-            // Verifica se è un auth key valido (tskey-auth-xxx) o un invite URL (https://login.tailscale.com)
-            const isValidKey = authKey && (authKey.startsWith('tskey-') || authKey.includes('tailscale.com'));
+            const isValidKey = authKey && authKey.startsWith('tskey-');
             
             if (isValidKey) {
                 contentDiv.innerHTML = `
                     <!-- Timer -->
-                    <div class="timer-container" id="timer-container">
-                        <span class="timer-icon">⏱️</span>
-                        <span class="timer-text">
-                            <span data-i18n-timer="label">${t('timerLabel')}</span>: 
-                            <strong id="timer-value">${formatTime(timeRemaining)}</strong>
-                        </span>
+                    <div class="timer-box" id="timer-box">
+                        <div class="timer-icon"></div>
+                        <span class="timer-text">${t('timerLabel')}: <span class="timer-value" id="timer-value">${formatTime(timeRemaining)}</span></span>
                     </div>
                     
                     <!-- Platform Tabs -->
                     <div class="platform-tabs">
                         <div class="platform-tab ${defaultPlatform === 'ios' ? 'active' : ''}" data-platform="ios" onclick="showPlatform('ios')">
-                            <div class="platform-icon">🍎</div>
+                            <div class="platform-icon">${appleLogo}</div>
                             <div class="platform-name">iPhone / iPad</div>
                         </div>
                         <div class="platform-tab ${defaultPlatform === 'android' ? 'active' : ''}" data-platform="android" onclick="showPlatform('android')">
-                            <div class="platform-icon">🤖</div>
+                            <div class="platform-icon">${androidLogo}</div>
                             <div class="platform-name">Android</div>
                         </div>
                     </div>
                     
                     <!-- Auth Key Card -->
-                    <div class="key-card">
-                        <div class="key-card-header">
-                            <div class="key-icon">🔑</div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <svg><use href="#icon-key"/></svg>
+                            </div>
                             <div>
-                                <div class="key-title">${t('authKeyTitle')}</div>
-                                <div class="key-subtitle">${t('authKeySubtitle')}</div>
+                                <div class="card-title">${t('authKeyTitle')}</div>
+                                <div class="card-subtitle">${t('authKeySubtitle')}</div>
                             </div>
                         </div>
                         <div class="key-display">
                             <div class="key-value">${authKey}</div>
                         </div>
-                        <button class="copy-btn" onclick="copyToClipboard('${authKey}', this)">
-                            <span style="font-size: 1.2rem;">📋</span> ${t('copyKey')}
+                        <button class="btn btn-primary" onclick="copyToClipboard('${authKey}', this)">
+                            <svg><use href="#icon-copy"/></svg>
+                            ${t('copyKey')}
                         </button>
                     </div>
                     
-                    <!-- Open App Button - iOS -->
+                    ${exitNode ? `
+                    <!-- Exit Node Card -->
+                    <div class="card card-exit-node">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <svg><use href="#icon-globe"/></svg>
+                            </div>
+                            <div>
+                                <div class="card-title">${t('exitNodeTitle')}</div>
+                                <div class="card-subtitle">${t('exitNodeSubtitle')}</div>
+                            </div>
+                        </div>
+                        <div class="key-display key-display-green">
+                            <div class="key-value">${exitNode}</div>
+                        </div>
+                        <button class="btn btn-green" onclick="copyToClipboard('${exitNode}', this)">
+                            <svg><use href="#icon-copy"/></svg>
+                            ${t('copyName')}
+                        </button>
+                    </div>
+                    ` : ''}
+                    
+                    <!-- iOS Content -->
                     <div id="content-ios" class="platform-content ${defaultPlatform === 'ios' ? 'active' : ''}">
-                        <a href="tailscale://" class="open-app-btn">
-                            <span style="font-size: 1.3rem;">🚀</span> ${t('openApp')}
+                        <a href="tailscale://" class="btn btn-secondary" style="margin-bottom: 16px;">
+                            <svg><use href="#icon-open"/></svg>
+                            ${t('openApp')}
                         </a>
                         
-                        <div class="steps-container">
-                            <div class="steps-header">
-                                <span class="steps-icon">📱</span>
-                                <span class="steps-title">${t('stepsTitle')}</span>
-                            </div>
+                        <div class="steps-section">
+                            <div class="steps-title">${t('stepsTitle')}</div>
                             
                             <div class="step">
                                 <div class="step-number">1</div>
                                 <div class="step-content">
                                     <div class="step-title">${t('step1Title')}</div>
                                     <div class="step-desc">${t('step1Desc')}</div>
-                                    <div class="download-section">
+                                    <div class="download-row">
                                         <a href="https://apps.apple.com/app/tailscale/id1470499037" class="download-btn" target="_blank">
-                                            🍎 ${t('downloadIOS')}
+                                            ${appleLogo.replace('fill="white"', 'fill="#999"')}
+                                            App Store
                                         </a>
                                     </div>
                                 </div>
@@ -856,36 +873,38 @@
                                 </div>
                             </div>
                             
-                            <div class="step step-success">
-                                <div class="step-number">✓</div>
+                            ${exitNode ? `
+                            <div class="step step-exit-node">
+                                <div class="step-number">5</div>
                                 <div class="step-content">
                                     <div class="step-title">${t('step5Title')}</div>
-                                    <div class="step-desc">${t('step5Desc')}</div>
+                                    <div class="step-desc">${t('step5DescIOS')}</div>
+                                    <div class="step-highlight step-highlight-green">${exitNode}</div>
                                 </div>
                             </div>
+                            ` : ''}
                         </div>
                     </div>
                     
-                    <!-- Open App Button - Android -->
+                    <!-- Android Content -->
                     <div id="content-android" class="platform-content ${defaultPlatform === 'android' ? 'active' : ''}">
-                        <a href="tailscale://" class="open-app-btn">
-                            <span style="font-size: 1.3rem;">🚀</span> ${t('openApp')}
+                        <a href="tailscale://" class="btn btn-secondary" style="margin-bottom: 16px;">
+                            <svg><use href="#icon-open"/></svg>
+                            ${t('openApp')}
                         </a>
                         
-                        <div class="steps-container">
-                            <div class="steps-header">
-                                <span class="steps-icon">📱</span>
-                                <span class="steps-title">${t('stepsTitle')}</span>
-                            </div>
+                        <div class="steps-section">
+                            <div class="steps-title">${t('stepsTitle')}</div>
                             
                             <div class="step">
                                 <div class="step-number">1</div>
                                 <div class="step-content">
                                     <div class="step-title">${t('step1Title')}</div>
                                     <div class="step-desc">${t('step1Desc')}</div>
-                                    <div class="download-section">
+                                    <div class="download-row">
                                         <a href="https://play.google.com/store/apps/details?id=com.tailscale.ipn" class="download-btn" target="_blank">
-                                            🤖 ${t('downloadAndroid')}
+                                            ${androidLogo.replace('fill="white"', 'fill="#999"')}
+                                            Play Store
                                         </a>
                                     </div>
                                 </div>
@@ -915,19 +934,24 @@
                                 </div>
                             </div>
                             
-                            <div class="step step-success">
-                                <div class="step-number">✓</div>
+                            ${exitNode ? `
+                            <div class="step step-exit-node">
+                                <div class="step-number">5</div>
                                 <div class="step-content">
                                     <div class="step-title">${t('step5Title')}</div>
-                                    <div class="step-desc">${t('step5Desc')}</div>
+                                    <div class="step-desc">${t('step5DescAndroid')}</div>
+                                    <div class="step-highlight step-highlight-green">${exitNode}</div>
                                 </div>
                             </div>
+                            ` : ''}
                         </div>
                     </div>
                     
-                    <!-- Success Info -->
-                    <div class="success-card">
-                        <div class="success-icon">🔒</div>
+                    <!-- Success Box -->
+                    <div class="success-box">
+                        <div class="success-icon">
+                            <svg><use href="#icon-lock"/></svg>
+                        </div>
                         <div class="success-title">${t('successTitle')}</div>
                         <div class="success-desc">${t('successDesc')}</div>
                     </div>
@@ -938,7 +962,7 @@
                 timerInterval = setInterval(() => {
                     timeRemaining--;
                     const timerValue = document.getElementById('timer-value');
-                    const timerContainer = document.getElementById('timer-container');
+                    const timerBox = document.getElementById('timer-box');
                     
                     if (timerValue) {
                         timerValue.textContent = formatTime(timeRemaining);
@@ -946,10 +970,10 @@
                     
                     if (timeRemaining <= 0) {
                         clearInterval(timerInterval);
-                        if (timerContainer) {
-                            timerContainer.classList.add('timer-expired');
-                            timerContainer.innerHTML = `
-                                <span class="timer-icon">❌</span>
+                        if (timerBox) {
+                            timerBox.classList.add('timer-expired');
+                            timerBox.innerHTML = `
+                                <div class="timer-icon" style="border-color: #ff4444;"></div>
                                 <span class="timer-text">${t('timerExpired')}</span>
                             `;
                         }
@@ -957,10 +981,12 @@
                 }, 1000);
                 
             } else {
-                // No valid key
+                // Error state
                 contentDiv.innerHTML = `
-                    <div class="error-card">
-                        <div class="error-icon">⚠️</div>
+                    <div class="error-box">
+                        <div class="error-icon">
+                            <svg><use href="#icon-error"/></svg>
+                        </div>
                         <div class="error-title">${t('errorTitle')}</div>
                         <div class="error-desc">${t('errorDesc')}</div>
                     </div>
@@ -968,18 +994,8 @@
             }
         }
         
-        // Initial render
-        document.addEventListener('DOMContentLoaded', () => {
-            // Set initial language button state
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if ((currentLang === 'it' && btn.textContent.includes('Italiano')) ||
-                    (currentLang === 'en' && btn.textContent.includes('English'))) {
-                    btn.classList.add('active');
-                }
-            });
-            renderContent();
-        });
+        // Initialize
+        document.addEventListener('DOMContentLoaded', renderContent);
     </script>
 </body>
 </html>
