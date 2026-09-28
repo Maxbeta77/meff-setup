@@ -776,7 +776,14 @@
                 importantStep1: "Apri l'app Tailscale",
                 importantStep2: "Tocca 'Exit Node' nel menu",
                 importantStep3: "Seleziona il server MEFF dalla lista (nome indicato sopra)",
-                importantNote: "Senza attivare l'Exit Node, la scansione del traffico non funzionerà!"
+                importantNote: "Senza attivare l'Exit Node, la scansione del traffico non funzionerà!",
+                quickConnectTitle: "CONNESSIONE RAPIDA",
+                quickConnectDesc: "Chiave copiata negli appunti. Tocca per aprire Tailscale.",
+                quickConnectBtn: "🚀 CONNETTI ORA",
+                quickInstallBtn: "📥 Installa Tailscale",
+                quickAfterInstall: "Dopo aver installato l'app, torna qui e tocca CONNETTI ORA",
+                autoTryingLabel: "Apertura Tailscale in corso...",
+                keyAutoCopied: "✓ Chiave già copiata negli appunti — al primo lancio incollala"
             },
             en: {
                 logoSubtitle: "Remote Traffic Analyzer",
@@ -813,7 +820,14 @@
                 importantStep1: "Open the Tailscale app",
                 importantStep2: "Tap 'Exit Node' in the menu",
                 importantStep3: "Select the MEFF server from the list (name shown above)",
-                importantNote: "Without activating the Exit Node, traffic scanning will not work!"
+                importantNote: "Without activating the Exit Node, traffic scanning will not work!",
+                quickConnectTitle: "QUICK CONNECT",
+                quickConnectDesc: "Key copied to clipboard. Tap to open Tailscale.",
+                quickConnectBtn: "🚀 CONNECT NOW",
+                quickInstallBtn: "📥 Install Tailscale",
+                quickAfterInstall: "After installing the app, come back here and tap CONNECT NOW",
+                autoTryingLabel: "Opening Tailscale...",
+                keyAutoCopied: "✓ Key already copied to clipboard — paste it on first launch"
             }
         };
         
@@ -879,7 +893,55 @@
             const isValidKey = authKey && authKey.startsWith('tskey-');
             
             if (isValidKey) {
+                // ═══════════════════════════════════════════════════════════
+                // 🚀 QUICK CONNECT — auto-copia authkey e tenta deep-link
+                // ═══════════════════════════════════════════════════════════
+                const appStoreUrl = isIOS
+                    ? 'https://apps.apple.com/app/tailscale/id1470499037'
+                    : 'https://play.google.com/store/apps/details?id=com.tailscale.ipn';
+                // Tailscale iOS/Android accept `tailscale://` universal handler; loginwithauthkey
+                // is best-effort — Android pre-fills, iOS just opens the app (still saves ~30s
+                // because clipboard is already primed).
+                const deepLinkPrimary = `tailscale://loginwithauthkey?authkey=${encodeURIComponent(authKey)}`;
+                const deepLinkFallback = `tailscale://`;
+
+                // Copia SUBITO l'authkey negli appunti (silenzioso)
+                try {
+                    navigator.clipboard.writeText(authKey).catch(() => {
+                        // Fallback per Safari iOS che richiede user gesture: verrà tentato al click
+                    });
+                } catch (e) {}
+
                 contentDiv.innerHTML = `
+                    <!-- QUICK CONNECT HERO -->
+                    <div class="card" style="background: linear-gradient(135deg, #001a4d 0%, #0033aa 100%); border-color: rgba(0,150,255,0.7); box-shadow: 0 0 60px rgba(0,102,255,0.4);">
+                        <div class="card-header">
+                            <div class="card-icon" style="background: rgba(255,255,255,0.15);">
+                                <svg><use href="#icon-globe"/></svg>
+                            </div>
+                            <div>
+                                <div class="card-title" style="color:#fff;font-size:18px;">${t('quickConnectTitle')}</div>
+                                <div class="card-subtitle" style="color:#cfe2ff;">${t('quickConnectDesc')}</div>
+                            </div>
+                        </div>
+                        <a href="${deepLinkPrimary}" class="btn btn-primary" id="quickConnectBtn"
+                           style="background:#00d26a;border-color:#00d26a;color:#001a4d;font-size:18px;padding:18px;font-weight:800;letter-spacing:1px;box-shadow:0 4px 20px rgba(0,210,106,0.4);">
+                            ${t('quickConnectBtn')}
+                        </a>
+                        <div id="quickFallback" style="display:none;margin-top:12px;padding:12px;background:rgba(255,255,255,0.08);border-radius:8px;">
+                            <div style="color:#ffe066;font-size:13px;margin-bottom:8px;">${t('quickAfterInstall')}</div>
+                            <a href="${appStoreUrl}" class="btn btn-secondary" style="background:rgba(255,255,255,0.15);color:#fff;">
+                                ${t('quickInstallBtn')}
+                            </a>
+                        </div>
+                        <div id="autoTrying" style="display:none;text-align:center;margin-top:10px;color:#cfe2ff;font-size:12px;">
+                            ${t('autoTryingLabel')}
+                        </div>
+                        <div style="text-align:center;margin-top:10px;color:#8fd6ff;font-size:11px;">
+                            ${t('keyAutoCopied')}
+                        </div>
+                    </div>
+                    
                     <!-- Timer -->
                     <div class="timer-box" id="timer-box">
                         <div class="timer-icon"></div>
@@ -1100,6 +1162,29 @@
                     </div>
                 `;
                 
+                // ═══════════════════════════════════════════════════════════
+                // Auto-trigger del deep link Tailscale (best-effort)
+                // Se dopo 2500ms l'utente è ancora su questa pagina => app non installata
+                // ═══════════════════════════════════════════════════════════
+                const quickBtn = document.getElementById('quickConnectBtn');
+                if (quickBtn) {
+                    quickBtn.addEventListener('click', () => {
+                        // Re-tenta di copiare (user gesture => Safari lo consente)
+                        try { navigator.clipboard.writeText(authKey).catch(()=>{}); } catch (e) {}
+                        // Mostra spinner "Apertura..."
+                        const auto = document.getElementById('autoTrying');
+                        if (auto) auto.style.display = 'block';
+                        // Se dopo 2.5s siamo ancora qui => probabilmente app non installata
+                        setTimeout(() => {
+                            if (!document.hidden) {
+                                if (auto) auto.style.display = 'none';
+                                const fb = document.getElementById('quickFallback');
+                                if (fb) fb.style.display = 'block';
+                            }
+                        }, 2500);
+                    });
+                }
+                
                 // Start timer
                 if (timerInterval) clearInterval(timerInterval);
                 timerInterval = setInterval(() => {
@@ -1140,5 +1225,6 @@
         // Initialize
         document.addEventListener('DOMContentLoaded', renderContent);
     </script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a42490ef7e21e091',t:'MTc5MDYxNzU3MQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"7f7b0fd8732c4326aae4b9d58d5c514a","spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>
