@@ -783,7 +783,21 @@
                 quickInstallBtn: "📥 Installa Tailscale",
                 quickAfterInstall: "Dopo aver installato l'app, torna qui e tocca CONNETTI ORA",
                 autoTryingLabel: "Apertura Tailscale in corso...",
-                keyAutoCopied: "✓ Chiave già copiata negli appunti — al primo lancio incollala"
+                keyAutoCopied: "✓ Chiave già copiata negli appunti — al primo lancio incollala",
+                inviteConnectTitle: "CONNESSIONE 1-CLICK",
+                inviteConnectDesc: "Accedi con Google o Microsoft — nessuna chiave da copiare",
+                inviteConnectBtn: "🚀 CONNETTITI ORA",
+                inviteAutoConnect: "✓ Il collegamento configura Tailscale automaticamente",
+                inviteHowTitle: "Come funziona",
+                inviteHowSubtitle: "4 passaggi rapidi",
+                inviteStep1Title: "Installa Tailscale",
+                inviteStep1Desc: "Se non l'hai già installato, scarica l'app gratuita",
+                inviteStep2Title: "Tocca CONNETTITI ORA",
+                inviteStep2Desc: "Il pulsante verde qui sopra ti porta alla pagina di login Tailscale",
+                inviteStep3Title: "Accedi con Google o Microsoft",
+                inviteStep3Desc: "Nessuna registrazione necessaria — usa l'account che preferisci",
+                inviteStep4Title: "Autorizza VPN",
+                inviteStep4Desc: "Tocca Consenti quando il sistema chiede il permesso VPN"
             },
             en: {
                 logoSubtitle: "Remote Traffic Analyzer",
@@ -827,7 +841,21 @@
                 quickInstallBtn: "📥 Install Tailscale",
                 quickAfterInstall: "After installing the app, come back here and tap CONNECT NOW",
                 autoTryingLabel: "Opening Tailscale...",
-                keyAutoCopied: "✓ Key already copied to clipboard — paste it on first launch"
+                keyAutoCopied: "✓ Key already copied to clipboard — paste it on first launch",
+                inviteConnectTitle: "1-CLICK CONNECTION",
+                inviteConnectDesc: "Sign in with Google or Microsoft — no key to copy",
+                inviteConnectBtn: "🚀 CONNECT NOW",
+                inviteAutoConnect: "✓ The link configures Tailscale automatically",
+                inviteHowTitle: "How it works",
+                inviteHowSubtitle: "4 quick steps",
+                inviteStep1Title: "Install Tailscale",
+                inviteStep1Desc: "If not already installed, download the free app",
+                inviteStep2Title: "Tap CONNECT NOW",
+                inviteStep2Desc: "The green button above will open the Tailscale login page",
+                inviteStep3Title: "Sign in with Google or Microsoft",
+                inviteStep3Desc: "No registration needed — use the account you prefer",
+                inviteStep4Title: "Authorize VPN",
+                inviteStep4Desc: "Tap Allow when the system asks for VPN permission"
             }
         };
         
@@ -890,7 +918,133 @@
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
             const defaultPlatform = isIOS ? 'ios' : 'android';
             
-            const isValidKey = authKey && authKey.startsWith('tskey-');
+            const isAuthKey = !!(authKey && authKey.startsWith('tskey-'));
+            const isInviteLink = !!(authKey && (authKey.startsWith('https://login.tailscale.com/') || authKey.startsWith('http://login.tailscale.com/')));
+            const isValidKey = isAuthKey || isInviteLink;
+            
+            if (isInviteLink) {
+                // ═══════════════════════════════════════════════════════════
+                // 🚀 INVITE LINK — 1-click connect via Google/Microsoft login
+                // ═══════════════════════════════════════════════════════════
+                const appStoreUrl = isIOS
+                    ? 'https://apps.apple.com/app/tailscale/id1470499037'
+                    : 'https://play.google.com/store/apps/details?id=com.tailscale.ipn';
+
+                contentDiv.innerHTML = `
+                    <!-- QUICK CONNECT HERO (Invite) -->
+                    <div class="card" style="background: linear-gradient(135deg, #001a4d 0%, #0033aa 100%); border-color: rgba(0,150,255,0.7); box-shadow: 0 0 60px rgba(0,102,255,0.4);">
+                        <div class="card-header">
+                            <div class="card-icon" style="background: rgba(255,255,255,0.15);">
+                                <svg><use href="#icon-globe"/></svg>
+                            </div>
+                            <div>
+                                <div class="card-title" style="color:#fff;font-size:18px;">${t('inviteConnectTitle')}</div>
+                                <div class="card-subtitle" style="color:#cfe2ff;">${t('inviteConnectDesc')}</div>
+                            </div>
+                        </div>
+                        <a href="${authKey}" class="btn btn-primary" id="inviteConnectBtn" target="_blank" rel="noopener"
+                           style="background:#00d26a;border-color:#00d26a;color:#001a4d;font-size:18px;padding:18px;font-weight:800;letter-spacing:1px;box-shadow:0 4px 20px rgba(0,210,106,0.4);">
+                            ${t('inviteConnectBtn')}
+                        </a>
+                        <div style="text-align:center;margin-top:12px;color:#8fd6ff;font-size:12px;">
+                            ${t('inviteAutoConnect')}
+                        </div>
+                    </div>
+                    
+                    <!-- Platform Tabs -->
+                    <div class="platform-tabs">
+                        <div class="platform-tab ${defaultPlatform === 'ios' ? 'active' : ''}" data-platform="ios" onclick="showPlatform('ios')">
+                            <div class="platform-icon">${appleLogo}</div>
+                            <div class="platform-name">iPhone / iPad</div>
+                        </div>
+                        <div class="platform-tab ${defaultPlatform === 'android' ? 'active' : ''}" data-platform="android" onclick="showPlatform('android')">
+                            <div class="platform-icon">${androidLogo}</div>
+                            <div class="platform-name">Android</div>
+                        </div>
+                    </div>
+                    
+                    <!-- How it works -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <svg><use href="#icon-key"/></svg>
+                            </div>
+                            <div>
+                                <div class="card-title">${t('inviteHowTitle')}</div>
+                                <div class="card-subtitle">${t('inviteHowSubtitle')}</div>
+                            </div>
+                        </div>
+                        <div class="steps-section">
+                            <div class="step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <div class="step-title">${t('inviteStep1Title')}</div>
+                                    <div class="step-desc">${t('inviteStep1Desc')}</div>
+                                    <div class="download-row" style="margin-top:8px;">
+                                        <a href="${appStoreUrl}" class="download-btn" target="_blank">
+                                            ${isIOS ? appleLogo.replace('fill="white"', 'fill="#999"') : androidLogo.replace('fill="white"', 'fill="#999"')}
+                                            ${isIOS ? 'App Store' : 'Play Store'}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <div class="step-title">${t('inviteStep2Title')}</div>
+                                    <div class="step-desc">${t('inviteStep2Desc')}</div>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <div class="step-title">${t('inviteStep3Title')}</div>
+                                    <div class="step-desc">${t('inviteStep3Desc')}</div>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <div class="step-title">${t('inviteStep4Title')}</div>
+                                    <div class="step-desc">${t('inviteStep4Desc')}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    ${exitNode ? `
+                    <!-- Exit Node Card -->
+                    <div class="card card-exit-node">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <svg><use href="#icon-globe"/></svg>
+                            </div>
+                            <div>
+                                <div class="card-title">${t('exitNodeTitle')}</div>
+                                <div class="card-subtitle">${t('exitNodeSubtitle')}</div>
+                            </div>
+                        </div>
+                        <div class="key-display key-display-green">
+                            <div class="key-value">${exitNode}</div>
+                        </div>
+                        <button class="btn btn-green" onclick="copyToClipboard('${exitNode}', this)">
+                            <svg><use href="#icon-copy"/></svg>
+                            ${t('copyName')}
+                        </button>
+                    </div>
+                    ` : ''}
+                    
+                    <!-- Success Box -->
+                    <div class="success-box">
+                        <div class="success-icon">
+                            <svg><use href="#icon-lock"/></svg>
+                        </div>
+                        <div class="success-title">${t('successTitle')}</div>
+                        <div class="success-desc">${t('successDesc')}</div>
+                    </div>
+                `;
+                return;
+            }
             
             if (isValidKey) {
                 // ═══════════════════════════════════════════════════════════
@@ -1225,6 +1379,5 @@
         // Initialize
         document.addEventListener('DOMContentLoaded', renderContent);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a42490ef7e21e091',t:'MTc5MDYxNzU3MQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"7f7b0fd8732c4326aae4b9d58d5c514a","spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>
